@@ -1,9 +1,12 @@
 package seedu.address.logic.commands;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -70,5 +73,20 @@ public class UnmarkAsFavouriteCommandTest {
         assertCommandSuccess(command, testModel,
                 String.format(UnmarkAsFavouriteCommand.MESSAGE_UNMARK_PERSON_SUCCESS, personToEdit.getName()),
                 testModel);
+    }
+
+    /**
+     * Testing of equals method overwritten in UnmarkAsFavouriteCommand
+     */
+    @Test
+    public void execute_equals() {
+        UnmarkAsFavouriteCommand sameOne = new UnmarkAsFavouriteCommand(Index.fromOneBased(1));
+        UnmarkAsFavouriteCommand sameTwo = new UnmarkAsFavouriteCommand(Index.fromOneBased(1));
+        UnmarkAsFavouriteCommand different = new UnmarkAsFavouriteCommand(Index.fromOneBased(2));
+        Object otherObject = new ArrayList<>();
+
+        assertTrue(sameOne.equals(sameTwo));
+        assertFalse(sameOne.equals(different));
+        assertFalse(sameOne.equals(otherObject));
     }
 }

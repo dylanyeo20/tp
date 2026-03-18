@@ -1,9 +1,12 @@
 package seedu.address.logic.commands;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -79,5 +82,18 @@ public class MarkAsFavouriteCommandTest {
                 testModel);
     }
 
+    /**
+     * Testing of equals method overwritten in MarkAsFavouriteCommand
+     */
+    @Test
+    public void execute_equals() {
+        MarkAsFavouriteCommand sameOne = new MarkAsFavouriteCommand(Index.fromOneBased(1));
+        MarkAsFavouriteCommand sameTwo = new MarkAsFavouriteCommand(Index.fromOneBased(1));
+        MarkAsFavouriteCommand different = new MarkAsFavouriteCommand(Index.fromOneBased(2));
+        Object otherObject = new ArrayList<>();
 
+        assertTrue(sameOne.equals(sameTwo));
+        assertFalse(sameOne.equals(different));
+        assertFalse(sameOne.equals(otherObject));
+    }
 }
