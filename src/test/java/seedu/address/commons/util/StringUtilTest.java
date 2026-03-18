@@ -50,7 +50,8 @@ public class StringUtilTest {
 
     @Test
     public void containsSubstringIgnoreCase_nullSubstring_throwsNullPointerException() {
-        assertThrows(NullPointerException.class, () -> StringUtil.containsSubstringIgnoreCase("typical sentence", null));
+        assertThrows(NullPointerException.class, () ->
+            StringUtil.containsSubstringIgnoreCase("typical sentence", null));
     }
 
     @Test
