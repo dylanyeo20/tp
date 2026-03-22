@@ -150,8 +150,8 @@ Examples:
 *  `edit 3 d/Updated details about this person` Edits the details of the 3rd person to be `Updated details about this person`.
 
 ### Locating persons: `find`
-
-Finds persons whose names or phone numbers contain the given keywords.
+The find command searches across all details of a person — including name, phone number, email, address, and notes.
+It supports both substring matches and exact matches, and returns the entire person’s details when a match is found.
 
 Format Examples:
 * General search: `find KEYWORD`
@@ -161,11 +161,17 @@ Format Examples:
 * Email search: `find e/EMAIL_KEYWORD`
 
 **For general search:**
-* Searches across **name, phone, address, email, and details**.
-* The search is case-insensitive. e.g. `alex` will match `Alex`
-* Partial matches are supported. e.g. `lex` will match `Alex`
+* case-insensitive search. e.g. `alex` will match `Alex`
+* Keyword order does not matter (e.g. `Hans Bo` will match `Bo Hans`)
+* Substring matches supported. e.g. `lex` will match `Alex`
 * Persons matching at least one keyword will be returned (i.e. `OR` search).
   e.g. `find alex` will return persons whose fields contain `alex`
+
+Examples (General Search):
+* `find 9876` → returns the full details of persons with phone numbers 98765432, 98760000
+* `find Street` → returns the full details of persons with addresses 123 Street Ave, Streetview Apartments
+* `find example.com` → returns the full details of persons with emails like johndoe@example.com
+* `find Updated` → returns the full details of persons with notes like Updated details about this person
 
 **For field-specific search (using prefixes):**
 * Searches only within the specified field.
@@ -188,13 +194,11 @@ Format Examples:
 * e.g. `find n/Alex Bob` searches for persons whose **name** contains `Alex` or `Bob`
 * e.g. `find n/Alex p/9123 Bob` searches for persons whose **name** contains `Alex`, and whose **phone** contains `9123` or `Bob`
 
-Examples (General Search):
-* `find alex` returns persons whose fields contain `alex`
-* `find friend` returns persons whose fields contain `friend`
 
 Examples (Field-Specific Search):
 * `find n/Alex David` returns persons whose name contains `Alex David`
 * `find p/91032182 8743` returns persons whose phone contains `91032182 8743`
+* `find p/9876` returns all persons with phone numbers containing `9876`
 * `find a/Serangoon Geylang` returns persons whose address contains `Serangoon Geylang`
 * `find e/example.com` returns persons whose email contains `example.com`
 * `find d/friend` returns persons whose details contain `friend`
