@@ -57,34 +57,36 @@ CLIentTracker is built for agents who value **speed, reliability, and control**.
 
 **:information_source: Notes about the command format:**<br>
 
-* Words in `UPPER_CASE` are the parameters to be supplied by the user.<br>
-  e.g. in `add n/NAME`, `NAME` is a parameter which can be used as `add n/John Doe`.
+* Words in `UPPER_CASE` are the parameters to be supplied by the user.<br>  
+  * e.g. in `add n/NAME`, `NAME` is a parameter which can be used as `add n/John Doe`.
 
-* Items in square brackets are optional.<br>
-  e.g `n/NAME [t/TAG]` can be used as `n/John Doe t/friend` or as `n/John Doe`.
+* Items in square brackets are optional.<br>  
+  * e.g `n/NAME [t/TAG]` can be used as `n/John Doe t/friend` or as `n/John Doe`.
 
 * Items with `…`​ after them can be used multiple times including zero times.<br>
-  e.g. `[t/TAG]…​` can be used as ` ` (i.e. 0 times), `t/friend`, `t/friend t/family` etc.
+  * e.g. `[t/TAG]…​` can be used as ` ` (i.e. 0 times), `t/friend`, `t/friend t/family` etc.
 
 * Parameters can be in any order.<br>
-  e.g. if the command specifies `n/NAME p/PHONE_NUMBER`, `p/PHONE_NUMBER n/NAME` is also acceptable.
+  *  e.g. if the command specifies `n/NAME p/PHONE_NUMBER`, `p/PHONE_NUMBER n/NAME` is also acceptable.
 
 * Extraneous parameters for commands that do not take in parameters (such as `help`, `list`, `exit` and `clear`) will be ignored.<br>
-  e.g. if the command specifies `help 123`, it will be interpreted as `help`.
+  * e.g. if the command specifies `help 123`, it will be interpreted as `help`.
 
 * If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
 </div>
 
-Action | Description                                              | Format, Examples
---------|----------------------------------------------------------|------------------
-**Add** | [Adds a new person](#adding-a-person-add)                | `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [d/DETAILS] [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 d/Looking to buy in north t/BUYER` (dylan can edit here)
-**Edit** | [Edits an existing person](#editing-a-person-edit)       | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [d/DETAILS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com d/Updated work details`
-**Find** | [Finds persons by name or phone](#locating-persons-find) | `find KEYWORD [MORE_KEYWORDS]` for name search<br> `find p/PHONE_NUMBER` for phone search<br> e.g., `find James Jake` or `find p/98765432`
-**Delete** | [Deletes a person](#deleting-a-person-delete)            | `delete INDEX`<br> e.g., `delete 3`
-**Clear** | [Clears all entries](#clearing-all-entries-clear)        | `clear`
-**List** | [Lists all persons](#listing-all-persons-list)           | `list`
-**Help** | [Shows help message](#viewing-help-help)                 | `help`
-**Exit** | [Exits the app](#exiting-the-program-exit)               | `exit`
+Action | Description                                                   | Format, Examples
+--------|---------------------------------------------------------------|------------------
+**Add** | [Adds a new person](#adding-a-person-add)                     | `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [d/DETAILS] [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 d/Looking to buy in north t/BUYER` 
+**Edit** | [Edits an existing person](#editing-a-person-edit)            | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [d/DETAILS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com d/Updated work details`
+**Find** | [Finds persons by name or phone](#locating-persons-find)      | `find KEYWORD [MORE_KEYWORDS]` for name search<br> `find p/PHONE_NUMBER` for phone search<br> e.g., `find James Jake` or `find p/98765432`
+**Delete** | [Deletes a person](#deleting-a-person--delete)                | `delete INDEX`<br> e.g., `delete 3`
+**Clear** | [Clears all entries](#clearing-all-entries--clear)            | `clear`
+**Mark** | [Adds contact into favourites](#favourites-mark-and-unmark)   | `mark INDEX` <br> Example: `mark 1`
+**Unmark** | [Removes contact from favourites](#favourites-mark-and-unmark) | `unmark INDEX` <br> Example: `mark 1`
+**List** | [Lists all persons](#listing-all-persons-list)                | `list`  
+**Help** | [Shows help message](#viewing-help-help)                      | `help`
+**Exit** | [Exits the app](#exiting-the-program-exit)                    | `exit`
 
 
 --------------------------------------------------------------------------------------------------------------------
@@ -102,7 +104,7 @@ Parameters:
 * `e/` : Email of the new contact
 * `a/` : Address of the new contact
 * `d/` : Details of the new contact [optional]
-* `t/` : Tags of the new contact [optional] (dylan maybe can edit here)
+* `t/` : Tags of the new contact [optional] (*Valid tags: "Renter", "Landlord", "Buyer", "Seller"*)
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
 A person can have any number of tags (including 0)
@@ -118,7 +120,7 @@ Examples:
 * `add n/Alex Yeoh p/87438807 e/alexyeoh@example.com a/Blk 30 Geylang Street 29, #06-40 d/Looking for apartment near city`
 
 
-### Editing a person : `edit`
+### Editing a person: `edit`
 
 Edits an existing person in the address book.
 
@@ -131,7 +133,7 @@ Parameters:
 * `e/` : Email of the new contact
 * `a/` : Address of the new contact
 * `d/` : Details of the new contact [optional]
-* `t/` : Tags of the new contact [optional] (dylan maybe can edit here)
+* `t/` : Tags of the new contact [optional] (*Valid tags: "Renter", "Landlord", "Buyer", "Seller"*)
 
 Behavior:
 * The index field is mandatory and **must be a positive integer smaller than the number of contacts**
@@ -231,13 +233,28 @@ Clears all entries from the address book.
 
 Format: `clear`
 
-### Listing all persons : `list`
+### Favourites: `mark` and `unmark`
+
+*Add or remove contacts from favourites*
+
+Format: `mark INDEX` or `unmark INDEX`
+* Mark INDEX adds the contact at INDEX to favourites
+* Unmark INDEX removes the contact at INDEX from favourites
+* INDEX refers to the index number shown on the displayed person list
+  * INDEX must be a valid number in the list
+
+Examples:
+* `mark 1` <br> ![mark 1 image](./images/mark_1_image.png)
+* `unmark 1` <br> ![unmark_2_iumage](./images/unmark_2_image.png)
+  
+
+### Listing all persons: `list`
 
 Shows a list of all persons in the address book.
 
 Format: `list`
 
-### Viewing help : `help`
+### Viewing help: `help`
 
 Shows a message explaining how to access the help page.
 
@@ -245,7 +262,7 @@ Shows a message explaining how to access the help page.
 
 Format: `help`
 
-### Exiting the program : `exit`
+### Exiting the program: `exit`
 
 Exits the program.
 
