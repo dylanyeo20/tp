@@ -7,6 +7,20 @@ import java.util.function.Predicate;
 
 import seedu.address.commons.util.ToStringBuilder;
 
+/**
+ * Tests that a {@code Person} matches a set of keyword-based search conditions.
+ *
+ * <p>The predicate supports both general and field-specific searches. Keywords are grouped
+ * by prefixes (e.g. {@code n/}, {@code p/}, {@code e/}, {@code a/}, {@code d/}), where each
+ * prefix corresponds to a specific field of a {@code Person}. General keywords (without a
+ * prefix) are matched against all searchable fields.
+ *
+ * <p>For each prefix, a corresponding field-specific predicate is created. A {@code Person}
+ * is considered a match only if all applicable predicates return {@code true} (i.e. logical AND
+ * across different fields).
+ *
+ * <p>Entries with empty or null keyword lists are ignored.
+ */
 public class PersonContainsKeywordsPredicate implements Predicate<Person> {
     public static final String GENERAL_KEY = "general";
 
@@ -47,25 +61,26 @@ public class PersonContainsKeywordsPredicate implements Predicate<Person> {
             }
 
             switch (prefix) {
-                case GENERAL_KEY:
-                    predicates.add(new GeneralContainsKeywordPredicate(keywords));
-                    break;
-                case "n/":
-                    predicates.add(new NameContainsKeywordPredicate(keywords));
-                    break;
-                case "p/":
-                    predicates.add(new PhoneContainsKeywordPredicate(keywords));
-                    break;
-                case "a/":
-                    predicates.add(new AddressContainsKeywordPredicate(keywords));
-                    break;
-                case "d/":
-                    predicates.add(new DetailsContainsKeywordPredicate(keywords));
-                    break;
-                case "e/":
-                    predicates.add(new EmailContainsKeywordPredicate(keywords));
-                default:
-                    break;
+            case GENERAL_KEY:
+                predicates.add(new GeneralContainsKeywordPredicate(keywords));
+                break;
+            case "n/":
+                predicates.add(new NameContainsKeywordPredicate(keywords));
+                break;
+            case "p/":
+                predicates.add(new PhoneContainsKeywordPredicate(keywords));
+                break;
+            case "a/":
+                predicates.add(new AddressContainsKeywordPredicate(keywords));
+                break;
+            case "d/":
+                predicates.add(new DetailsContainsKeywordPredicate(keywords));
+                break;
+            case "e/":
+                predicates.add(new EmailContainsKeywordPredicate(keywords));
+                break;
+            default:
+                break;
             }
         }
     }
