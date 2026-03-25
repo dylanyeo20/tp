@@ -5,6 +5,7 @@
 ![Ui](docs/images/Ui.png)
 
 This is a **lightweight CLI CRM** that enables property agents to efficiently track their clients information such as contacts, property preferences/details, transaction information, manages events
+within a streamlined interface.  ClientTracker makes it easy to organize and access client data, ensuring agents can focus on building relationships and closing deals.
 
 ---
 
@@ -22,7 +23,13 @@ For more detailed instructions, see the [User Guide](https://se-education.org/ad
 ### Features
 * List all contacts
 * Add contacts
+* Find contacts 
+* Edit contacts
 * Delete contacts
+* Clear all entries
+* Mark a specific contact
+* Unmark a specific contact 
+* Help command
 * For the detailed documentation of this project, see the **[CLIentTracker Product Website](https://se-education.org/addressbook-level3)**.
 
 *Acknowledgment: This project is based on the AddressBook-Level3 project created by the [SE-EDU initiative](https://se-education.org)*

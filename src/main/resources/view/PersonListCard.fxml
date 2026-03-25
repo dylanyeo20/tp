@@ -8,31 +8,70 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.RowConstraints?>
 
 <HBox id="cardPane" fx:id="cardPane" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
-  <GridPane HBox.hgrow="ALWAYS">
-    <columnConstraints>
-      <ColumnConstraints hgrow="SOMETIMES" minWidth="10" prefWidth="150" />
-    </columnConstraints>
-    <VBox alignment="CENTER_LEFT" minHeight="105" GridPane.columnIndex="0">
-      <padding>
-        <Insets top="5" right="5" bottom="5" left="15" />
-      </padding>
-      <HBox spacing="0.5" alignment="CENTER_LEFT">
+  <VBox HBox.hgrow="ALWAYS" spacing="12">
+    <!-- Header Section: Name and Tags -->
+    <VBox spacing="8" styleClass="card-header">
+      <HBox spacing="8" alignment="CENTER_LEFT">
         <Label fx:id="id" styleClass="cell_big_label">
           <minWidth>
-            <!-- Ensures that the label text is never truncated -->
             <Region fx:constant="USE_PREF_SIZE" />
           </minWidth>
         </Label>
         <Label fx:id="name" text="\$first" styleClass="cell_big_label" />
       </HBox>
       <FlowPane fx:id="tags" />
-      <Label fx:id="phone" styleClass="cell_small_label" text="\$phone" />
-      <Label fx:id="address" styleClass="cell_small_label" text="\$address" />
-      <Label fx:id="email" styleClass="cell_small_label" text="\$email" />
-      <Label fx:id="details" styleClass="cell_small_label" text="\$details" />
-      <Label fx:id="meeting" managed="false" styleClass="cell_small_label,meeting_label" text="\$meeting" visible="false" />
     </VBox>
-  </GridPane>
+
+    <!-- Visual Separator -->
+    <Region styleClass="card-divider" />
+
+    <!-- Contact Information Grid -->
+    <GridPane hgap="16" vgap="10" styleClass="contact-info-grid">
+      <columnConstraints>
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="10" percentWidth="50" />
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="10" percentWidth="50" />
+      </columnConstraints>
+      <rowConstraints>
+        <RowConstraints />
+        <RowConstraints />
+      </rowConstraints>
+
+      <!-- Phone -->
+      <HBox spacing="8" alignment="CENTER_LEFT" GridPane.columnIndex="0" GridPane.rowIndex="0">
+        <Label text="📞" styleClass="contact-icon" />
+        <Label fx:id="phone" styleClass="cell_small_label" text="\$phone" wrapText="true" />
+      </HBox>
+
+      <!-- Email -->
+      <HBox spacing="8" alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="0">
+        <Label text="📧" styleClass="contact-icon" />
+        <Label fx:id="email" styleClass="cell_small_label" text="\$email" wrapText="true" />
+      </HBox>
+
+      <!-- Address -->
+      <HBox spacing="8" alignment="CENTER_LEFT" GridPane.columnIndex="0" GridPane.rowIndex="1" GridPane.columnSpan="2">
+        <Label text="📍" styleClass="contact-icon" />
+        <Label fx:id="address" styleClass="cell_small_label" text="\$address" wrapText="true" maxWidth="Infinity" />
+      </HBox>
+    </GridPane>
+
+    <!-- Details Section (if present) -->
+    <VBox spacing="8" styleClass="details-section">
+      <HBox spacing="8" alignment="TOP_LEFT">
+        <Label text="📋" styleClass="contact-icon" />
+        <Label fx:id="details" styleClass="cell_small_label,details-label" text="\$details" wrapText="true" maxWidth="Infinity" />
+      </HBox>
+    </VBox>
+
+    <!-- Meeting Section (if present) -->
+    <VBox spacing="8" styleClass="meeting-section">
+      <HBox spacing="8" alignment="CENTER_LEFT">
+        <Label text="📅" styleClass="contact-icon" />
+        <Label fx:id="meeting" managed="false" styleClass="cell_small_label,meeting_label" text="\$meeting" visible="false" wrapText="true" />
+      </HBox>
+    </VBox>
+  </VBox>
 </HBox>

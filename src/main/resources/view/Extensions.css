@@ -1,20 +1,108 @@
+/* Modern Extensions */
 
 .error {
-    -fx-text-fill: #d06651 !important; /* The error class should always override the default text-fill style */
+    -fx-text-fill: #ef4444 !important;
+    -fx-font-weight: 600;
 }
 
 .list-cell:empty {
-    /* Empty cells will not have alternating colours */
-    -fx-background: #383838;
+    -fx-background: transparent;
 }
 
 .tag-selector {
-    -fx-border-width: 1;
-    -fx-border-color: white;
-    -fx-border-radius: 3;
-    -fx-background-radius: 3;
+    -fx-border-width: 2;
+    -fx-border-color: #5b9dd9;
+    -fx-border-radius: 14;
+    -fx-background-radius: 14;
+    -fx-background-color: #2d3139;
 }
 
 .tooltip-text {
-    -fx-text-fill: white;
+    -fx-text-fill: #e4e6eb;
+    -fx-font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* Smooth transitions */
+.list-cell {
+    -fx-transition: all 0.2s ease;
+}
+
+#cardPane {
+    -fx-transition: all 0.2s ease;
+}
+
+.button {
+    -fx-transition: all 0.15s ease;
+}
+
+/* Enhanced meeting label */
+.meeting_label {
+    -fx-text-fill: #5b9dd9;
+    -fx-font-weight: 600;
+    -fx-background-color: rgba(91, 157, 217, 0.15);
+    -fx-padding: 6 12 6 12;
+    -fx-background-radius: 8;
+    -fx-border-color: #5b9dd9;
+    -fx-border-width: 1;
+    -fx-border-radius: 8;
+}
+
+/* Favorite/status indicators */
+.favourite-indicator {
+    -fx-text-fill: #fbbf24;
+    -fx-font-size: 16px;
+}
+
+/* Enhanced focus states */
+.text-field:focused, .text-area:focused {
+    -fx-border-color: #5b9dd9;
+    -fx-effect: dropshadow(gaussian, rgba(91, 157, 217, 0.3), 8, 0, 0, 0);
+}
+
+/* Grid cell spacing improvements */
+.contact-info-grid .label {
+    -fx-wrap-text: true;
+}
+
+/* Section headers (if needed) */
+.section-header {
+    -fx-font-size: 12px;
+    -fx-font-weight: 600;
+    -fx-text-fill: #9ca3af;
+    -fx-padding: 4 0 4 0;
+    -fx-text-transform: uppercase;
+    -fx-letter-spacing: 0.5px;
+}
+
+/* Card hover animation enhancement */
+.list-cell:filled:hover #cardPane {
+    -fx-scale-x: 1.005;
+    -fx-scale-y: 1.005;
+}
+
+/* Icon animations on hover */
+.contact-icon:hover {
+    -fx-scale-x: 1.1;
+    -fx-scale-y: 1.1;
+}
+
+/* Better visual grouping */
+.card-section {
+    -fx-padding: 8 0;
+}
+
+/* Subtle background for alternating sections */
+.details-section, .meeting-section {
+    -fx-background-color: rgba(255, 255, 255, 0.02);
+    -fx-background-radius: 6;
+    -fx-padding: 8;
+}
+
+/* Empty state styling */
+.empty-list-message {
+    -fx-text-fill: #6b7280;
+    -fx-font-size: 14px;
+    -fx-font-style: italic;
+    -fx-alignment: center;
+    -fx-padding: 40;
 }
