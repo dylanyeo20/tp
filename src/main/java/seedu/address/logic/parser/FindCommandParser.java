@@ -75,6 +75,11 @@ public class FindCommandParser implements Parser<FindCommand> {
             return fieldMap;
         }
 
+        if (!input.trim().matches("^[npaed]/.*")) {
+            throw new ParseException(
+                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
+        }
+
         String[] parts = input.split(PREFIX_REGEX);
 
         for (String part : parts) {
