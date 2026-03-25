@@ -49,6 +49,9 @@ public class MarkAsFavouriteCommandTest {
         List<Person> lastShownList = model.getFilteredPersonList();
         Person personToEdit = lastShownList.get(index.getZeroBased());
 
+        assertCommandSuccess(secondCommand, model,
+                String.format(MarkAsFavouriteCommand.MESSAGE_MARK_PERSON_DUPLICATE,
+                        personToEdit.getName()), model);
         assertCommandFailure(secondCommand, model,
                 String.format(MarkAsFavouriteCommand.MESSAGE_MARK_PERSON_DUPLICATE,
                         personToEdit.getName()));
