@@ -9,8 +9,11 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.image.ImageView?>
+
 
 <HBox id="cardPane" fx:id="cardPane" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+
   <VBox HBox.hgrow="ALWAYS" spacing="12">
     <!-- Header Section: Name and Tags -->
     <VBox spacing="8" styleClass="card-header">
@@ -21,6 +24,13 @@
           </minWidth>
         </Label>
         <Label fx:id="name" text="\$first" styleClass="cell_big_label" />
+        <Region HBox.hgrow="ALWAYS" />
+        <ImageView fx:id="photo"
+                   fitWidth="30"
+                   fitHeight="30"
+                   preserveRatio="true"
+                   visible="false"
+                   managed="false" />
       </HBox>
       <FlowPane fx:id="tags" />
     </VBox>
