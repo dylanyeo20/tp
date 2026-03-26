@@ -175,10 +175,12 @@ Format Examples:
     e.g. `find alex` will return persons whose fields contain `alex`
 
 Examples (General Search):
-* `find 9876` → returns the full details of persons with phone numbers 98765432, 98760000
-  * `find Street` → returns the full details of persons with addresses 123 Street Ave, Streetview Apartments
-  * `find example.com` → returns the full details of persons with emails like johndoe@example.com
-  * `find Updated` → returns the full details of persons with notes like Updated details about this person
+* `find 9876` returns the full details of persons with phone numbers 98765432, 98760000
+  * `find Street` returns the full details of persons with addresses 123 Street Ave, Streetview Apartments
+  * `find example.com` returns the full details of persons with emails like johndoe@example.com
+  * `find Updated` returns the full details of persons with notes like Updated details about this person
+  * `find ong` returns the full details of persons with names John Ong, Joel Ong\
+  
 
 **For field-specific search (using prefixes):**
 * Searches only within the specified field.
