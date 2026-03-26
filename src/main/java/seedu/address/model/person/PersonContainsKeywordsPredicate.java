@@ -80,7 +80,7 @@ public class PersonContainsKeywordsPredicate implements Predicate<Person> {
                 predicates.add(new EmailContainsKeywordPredicate(keywords));
                 break;
             default:
-                break;
+                assert false : "Unexpected prefix: " + prefix;
             }
         }
     }

@@ -9,7 +9,7 @@ within a streamlined interface.  ClientTracker makes it easy to organize and acc
 
 ---
 
-### Quick start:
+### 🚀 Quick Start
 1. Download the latest version of the application [here](https://github.com/AY2526S2-CS2103T-T14-2/tp/releases)
 2. Navigate to where you downloaded the file.
 3. Run the application
@@ -20,15 +20,13 @@ For more detailed instructions, see the [User Guide](https://se-education.org/ad
 
 ---
 
-### Features
-* List all contacts
-* Add contacts
-* Find contacts 
-* Edit contacts
-* Delete contacts
-* Clear all entries
-* Mark a specific contact
-* Unmark a specific contact 
+### 🔑 Features
+* List, add, find, edit and delete contacts
+* clear all entries
+* Mark/unmark specific contacts
+* Manage events with streamlined commands
+* Built-in help command
+* Improved UI for better usability 
 * Help command
 * For the detailed documentation of this project, see the **[CLIentTracker Product Website](https://se-education.org/addressbook-level3)**.
 

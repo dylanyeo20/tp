@@ -43,6 +43,7 @@ public class FindCommandParser implements Parser<FindCommand> {
         }
 
         Map<String, List<String>> fieldMap = parseFindArguments(trimmedArgs);
+        assert !fieldMap.isEmpty() : "fieldMap should not be empty after parsing";
         return new FindCommand(new PersonContainsKeywordsPredicate(fieldMap));
     }
 
@@ -89,18 +90,33 @@ public class FindCommandParser implements Parser<FindCommand> {
             if (part.isEmpty()) {
                 continue;
             }
+            assert part.matches("[npaed]/.*") : "Invalid prefix encountered: " + part;
 
+            // Each part is expected to start with a valid prefix followed by its value.
+            // We identify the prefix and extract the corresponding value.
             if (part.startsWith("n/")) {
+                // Name field: store the keywords as values for the key "n/" in the dict
                 addTaggedValues(fieldMap, "n/", part.substring(2));
+
             } else if (part.startsWith("p/")) {
+                // Phone field
                 addTaggedValues(fieldMap, "p/", part.substring(2));
+
             } else if (part.startsWith("e/")) {
+                // Email field
                 addTaggedValues(fieldMap, "e/", part.substring(2));
+
             } else if (part.startsWith("a/")) {
+                // Address field
                 addTaggedValues(fieldMap, "a/", part.substring(2));
+
             } else if (part.startsWith("d/")) {
+                // Details field
                 addTaggedValues(fieldMap, "d/", part.substring(2));
+
             } else {
+                // Any segment that does not match a valid prefix is considered invalid input
+                // and should result in a parsing failure
                 throw new ParseException(
                         String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
             }

@@ -69,4 +69,8 @@ shadowJar {
     archiveFileName = 'CLIentTracker-1.3.0.jar'
 }
 
+run {
+    enableAssertions = true
+}
+
 defaultTasks 'clean', 'test'

@@ -4,6 +4,8 @@ import java.util.Comparator;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
@@ -28,6 +30,8 @@ public class PersonCard extends UiPart<Region> {
 
     @FXML
     private HBox cardPane;
+    @FXML
+    private ImageView photo;
     @FXML
     private Label name;
     @FXML
@@ -70,6 +74,16 @@ public class PersonCard extends UiPart<Region> {
             meeting.setManaged(false);
             meeting.setVisible(false);
         }
+        if (person.getIsFavourite()) {
+            photo.setImage(new Image(getClass().getResourceAsStream("/images/star.png")));
+            photo.setManaged(true);
+            photo.setVisible(true);
+        } else {
+            photo.setImage(new Image(getClass().getResourceAsStream("/images/unstar.png")));
+            photo.setManaged(true);
+            photo.setVisible(true);
+        }
+
         person.getTags().stream()
                 .sorted(Comparator.comparing(tag -> tag.tagName))
                 .forEach(tag -> tags.getChildren().add(new Label(tag.tagName.name())));

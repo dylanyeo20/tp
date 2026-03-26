@@ -19,6 +19,7 @@ import seedu.address.logic.commands.DeleteCommand;
 import seedu.address.logic.commands.EditCommand;
 import seedu.address.logic.commands.EditCommand.EditPersonDescriptor;
 import seedu.address.logic.commands.ExitCommand;
+import seedu.address.logic.commands.FavouritesCommand;
 import seedu.address.logic.commands.FindCommand;
 import seedu.address.logic.commands.HelpCommand;
 import seedu.address.logic.commands.ListCommand;
@@ -81,6 +82,12 @@ public class AddressBookParserTest {
                         new PersonContainsKeywordsPredicate(
                                 Map.of(PersonContainsKeywordsPredicate.GENERAL_KEY, keywords))),
                 command);
+    }
+
+    @Test
+    public void parseCommand_favourites() throws Exception {
+        assertTrue(parser.parseCommand(FavouritesCommand.COMMAND_WORD) instanceof FavouritesCommand);
+        assertTrue(parser.parseCommand(FavouritesCommand.COMMAND_WORD + " 3") instanceof FavouritesCommand);
     }
 
     @Test
