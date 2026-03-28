@@ -26,7 +26,7 @@ For more detailed instructions, see the [User Guide](https://se-education.org/ad
 * Mark/unmark specific contacts
 * Manage events with streamlined commands
 * Built-in help command
-* Improved UI for better usability 
+* Improved UI for better usability
 * Help command
 * For the detailed documentation of this project, see the **[CLIentTracker Product Website](https://se-education.org/addressbook-level3)**.
 

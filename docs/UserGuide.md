@@ -5,18 +5,18 @@ toc: true
 toc_label: "On this page"
 toc_icon: "list"
 ---
-CLIentTracker is a desktop CRM designed for property agents, optimized for use via a Command Line Interface (CLI) while 
+CLIentTracker is a desktop CRM designed for property agents, optimized for use via a Command Line Interface (CLI) while
 retaining a clean and simple visual interface. It enables efficient management of clients, property listings, notes, and
-meetings through commands such as add, edit, find, and list, allowing users to update and retrieve information faster 
-than traditional GUI-based systems. For agents who are comfortable with typing, this significantly improves productivity 
+meetings through commands such as add, edit, find, and list, allowing users to update and retrieve information faster
+than traditional GUI-based systems. For agents who are comfortable with typing, this significantly improves productivity
 in day-to-day operations.
 
-Unlike many web-based CRMs, CLIentTracker works fully offline, making it reliable in environments with poor or unstable 
-connectivity, such as property viewings or on-site visits. Core actions like searching, editing, or scheduling meetings 
-are performed instantly, without delays from loading or syncing. All data is automatically saved when the application 
+Unlike many web-based CRMs, CLIentTracker works fully offline, making it reliable in environments with poor or unstable
+connectivity, such as property viewings or on-site visits. Core actions like searching, editing, or scheduling meetings
+are performed instantly, without delays from loading or syncing. All data is automatically saved when the application
 closes, ensuring records remain secure without manual intervention.
 
-Built for agents who value speed, reliability, and control, CLIentTracker helps users focus on clients rather than tools 
+Built for agents who value speed, reliability, and control, CLIentTracker helps users focus on clients rather than tools
 in fast-paced environments.
 
 ## :page_facing_up: Contents
@@ -167,10 +167,10 @@ Examples:
 Search for persons using keywords across all fields or within specific fields.
 
 #### **Format:**
-- General search:  
+- General search:
   `find KEYWORD...`
 
-- Field-specific search:  
+- Field-specific search:
   `find PREFIX/KEYWORD PREFIX/KEYWORD...`
 
 **Prefixes:**
@@ -191,7 +191,6 @@ Search for persons using keywords across all fields or within specific fields.
   - `find alex`
   - `find alex, bob`
   - `find 9876`
-  
 #### **Field-Specific Search:**
 - Searches only within specified field(s)
 - Case-insensitive and supports partial matches
@@ -235,7 +234,7 @@ Format: `meeting INDEX DATE_TIME`
 - `Friday`/`Fri` - next Friday
 - `Saturday`/`Sat` - next Saturday
 - `Sunday`/`Sun` - next Sunday
-- 
+
 **Static Date formats:**
 - `15 Mar` (day month)
 - `15 Mar 2030` (day month year)
@@ -320,7 +319,7 @@ Format: `list`
 
 ### Viewing favourites: `favourites`
 
-Shows a list with only contacts in favourites. 
+Shows a list with only contacts in favourites.
 
 Format: `favourites`
 
