@@ -50,19 +50,22 @@
       </rowConstraints>
 
       <!-- Phone -->
-      <HBox spacing="8" alignment="CENTER_LEFT" GridPane.columnIndex="0" GridPane.rowIndex="0">
+      <HBox spacing="8" alignment="CENTER_LEFT" GridPane.columnIndex="0" GridPane.rowIndex="0"
+            styleClass="phone-section">
         <Label text="📞" styleClass="contact-icon" />
         <Label fx:id="phone" styleClass="cell_small_label" text="\$phone" wrapText="true" />
       </HBox>
 
       <!-- Email -->
-      <HBox spacing="8" alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="0">
+      <HBox spacing="8" alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="0"
+            styleClass="email-section">
         <Label text="📧" styleClass="contact-icon" />
         <Label fx:id="email" styleClass="cell_small_label" text="\$email" wrapText="true" />
       </HBox>
 
       <!-- Address -->
-      <HBox spacing="8" alignment="CENTER_LEFT" GridPane.columnIndex="0" GridPane.rowIndex="1" GridPane.columnSpan="2">
+      <HBox spacing="8" alignment="CENTER_LEFT" GridPane.columnIndex="0" GridPane.rowIndex="1" GridPane.columnSpan="2"
+            styleClass="address-section">
         <Label text="📍" styleClass="contact-icon" />
         <Label fx:id="address" styleClass="cell_small_label" text="\$address" wrapText="true" maxWidth="Infinity" />
       </HBox>
@@ -72,7 +75,7 @@
     <VBox spacing="8" styleClass="details-section">
       <HBox spacing="8" alignment="TOP_LEFT">
         <Label text="📋" styleClass="contact-icon" />
-        <Label fx:id="details" styleClass="cell_small_label,details-label" text="\$details" wrapText="true" maxWidth="Infinity" />
+        <Label fx:id="details" styleClass="cell_small_label,details-label" text="\$details" wrapText="true" />
       </HBox>
     </VBox>
 

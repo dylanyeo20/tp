@@ -152,6 +152,7 @@
     -fx-font-size: 13px;
     -fx-text-fill: #9ca3af;
     -fx-padding: 2 0 0 0;
+    -fx-wrap-text: true;
 }
 
 .cell_small_label_wrap {
@@ -161,6 +162,21 @@
     -fx-wrap-text: true;
     -fx-max-width: 800px;
     -fx-padding: 2 0 0 0;
+}
+
+/* Address field max-width */
+.cell_small_label#email {
+    -fx-max-width: 400px;
+}
+
+/* Address field max-width */
+.cell_small_label#address {
+    -fx-max-width: 900px;
+}
+
+/* Address field max-width */
+.cell_small_label#phone {
+    -fx-max-width: 400px;
 }
 
 .stack-pane {
@@ -388,6 +404,7 @@
 
 .details-section {
     -fx-padding: 4 0 0 0;
+    -fx-width: 100%;
 }
 
 .meeting-section {
@@ -406,6 +423,7 @@
 .details-label {
     -fx-text-fill: #b4b9c5;
     -fx-font-style: italic;
+    -fx-max-width: 900px;
 }
 
 #commandTypeLabel {

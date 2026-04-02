@@ -92,7 +92,7 @@
 }
 
 /* Subtle background for alternating sections */
-.details-section, .meeting-section {
+.details-section, .meeting-section, .phone-section, .email-section, .address-section{
     -fx-background-color: rgba(255, 255, 255, 0.02);
     -fx-background-radius: 6;
     -fx-padding: 8;
