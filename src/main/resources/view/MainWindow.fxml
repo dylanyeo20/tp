@@ -39,14 +39,14 @@
           </padding>
         </StackPane>
 
-        <StackPane VBox.vgrow="NEVER" fx:id="resultDisplayPlaceholder" styleClass="pane-with-border"
-                   minHeight="100" prefHeight="100" maxHeight="100">
+        <StackPane VBox.vgrow="SOMETIMES" fx:id="resultDisplayPlaceholder" styleClass="pane-with-border"
+                   minHeight="80" prefHeight="150">
           <padding>
             <Insets top="12" right="16" bottom="12" left="16" />
           </padding>
         </StackPane>
 
-        <VBox fx:id="personList" styleClass="pane-with-border" minWidth="340" prefWidth="340" VBox.vgrow="ALWAYS">
+        <VBox fx:id="personList" styleClass="pane-with-border" VBox.vgrow="ALWAYS">
           <padding>
             <Insets top="16" right="16" bottom="16" left="16" />
           </padding>
