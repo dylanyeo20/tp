@@ -114,7 +114,7 @@ Parameters:
 * `n/` : Name of the new contact (*Must be 1-50 characters*)
 * `e/` : Email of the new contact [optional] (*Must be 2-254 characters, or empty to represent no email*)
 * `a/` : Address of the new contact [optional] (*Must be 1-255 characters, or empty to represent no address*)
-* `d/` : Details of the new contact [optional] (*Must be under 512 characters, cannot be empty*)
+* `d/` : Details of the new contact [optional] (*Must be under 512 characters, or empty to represent no details*)
 * `t/` : Tags of the new contact [optional] (*Valid tags: "Renter", "Landlord", "Buyer", "Seller"*)
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
@@ -149,7 +149,7 @@ Parameters:
 * `n/` : Name of the new contact (*Must be 1-50 characters*)
 * `e/` : Email of the new contact [optional] (*Must be 2-254 characters, or empty to represent no email*)
 * `a/` : Address of the new contact [optional] (*Must be 1-255 characters, or empty to represent no address*)
-* `d/` : Details of the new contact [optional] (*Must be under 512 characters, cannot be empty*)
+* `d/` : Details of the new contact [optional] (*Must be under 512 characters, or empty to represent no details*)
 * `t/` : Tags of the new contact [optional] (*Valid tags: "Renter", "Landlord", "Buyer", "Seller"*)
 
 Behavior:
@@ -160,7 +160,7 @@ Behavior:
 * You can remove all the person’s tags by typing `t/` without
     specifying any tags after it.
 * When editing details, the existing details of the person will be removed i.e adding of details is not cumulative.
-* Details field must be under 512 characters and cannot be empty, otherwise details will not be updated.
+* When editing details, you can clear the details by using `d/` without specifying any value after it.
 * When editing email, you can clear the email by using `e/` without specifying any value after it.
 * When editing address, you can clear the address by using `a/` without specifying any value after it.
 * If a contact with the same phone number already exists, the contact will not be updated.
@@ -169,7 +169,7 @@ Behavior:
 Examples:
 *  `edit 1 p/91234567 e/johndoe@example.com` Edits the phone number and email address of the 1st person to be `91234567` and `johndoe@example.com` respectively.
 *  `edit 2 n/Betsy Crower t/` Edits the name of the 2nd person to be `Betsy Crower` and clears all existing tags.
-*  `edit 3 d/Updated details about this person` Edits the details of the 3rd person to be `Updated details about this person`.
+*  `edit 3 d/` Clears the details of the 3rd person.
 *  `edit 4 e/` Clears the email of the 4th person.
 *  `edit 5 a/` Clears the address of the 5th person.
 
