@@ -24,7 +24,7 @@ import seedu.address.model.tag.Tag;
 public class ParserUtilTest {
     private static final String INVALID_NAME = "R@chel";
     private static final String INVALID_PHONE = "+651234";
-    private static final String INVALID_ADDRESS = " ";
+    private static final String INVALID_ADDRESS = "a".repeat(256);
     private static final String INVALID_EMAIL = "example.com";
     private static final String INVALID_TAG = "friend";
 
@@ -196,20 +196,15 @@ public class ParserUtilTest {
     }
 
     @Test
-    public void parseDetails_noDetails_returnsDetails() throws Exception {
-        Details actualDetails = ParserUtil.parseDetails("No details");
-        assertEquals("No details", actualDetails.value);
-    }
-
-    @Test
     public void parseDetails_validDetails_returnsDetails() throws Exception {
         Details actualDetails = ParserUtil.parseDetails("Valid details");
         assertEquals("Valid details", actualDetails.value);
     }
 
     @Test
-    public void parseDetails_invalidDetails_throwsParseException() {
-        assertThrows(ParseException.class, () -> ParserUtil.parseDetails(""));
+    public void parseDetails_whitespaceDetails_returnsDetails() throws Exception {
+        Details actualDetails = ParserUtil.parseDetails("   ");
+        assertEquals("", actualDetails.value);
     }
 
 }

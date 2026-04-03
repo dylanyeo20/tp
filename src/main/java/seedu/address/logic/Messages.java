@@ -42,9 +42,9 @@ public class Messages {
                 .append("; Email: ")
                 .append(person.getEmail().value.isEmpty() ? "No email" : person.getEmail())
                 .append("; Address: ")
-                .append(person.getAddress())
+                .append(person.getAddress().value.isEmpty() ? "No address" : person.getAddress())
                 .append("; Details: ")
-                .append(person.getDetails())
+                .append(person.getDetails().value.isEmpty() ? "No details" : person.getDetails())
                 .append("; Tags: ");
         person.getTags().forEach(builder::append);
         if (person.hasMeeting()) {

@@ -130,12 +130,12 @@ class JsonAdaptedPerson {
         final Address modelAddress = new Address(address);
 
         if (details == null) {
-            details = "No details";
+            details = "";
         }
-        if (!Details.isValidDetails(details.trim())) {
+        if (!Details.isValidDetails(details)) {
             throw new IllegalValueException(Details.MESSAGE_CONSTRAINTS);
         }
-        final Details modelDetails = new Details(details.trim());
+        final Details modelDetails = new Details(details);
 
         final Set<Tag> modelTags = new HashSet<>(personTags);
 

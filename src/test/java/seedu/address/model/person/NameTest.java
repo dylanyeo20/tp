@@ -15,7 +15,7 @@ public class NameTest {
 
     @Test
     public void constructor_invalidName_throwsIllegalArgumentException() {
-        String invalidName = "";
+        String invalidName = " ";
         assertThrows(IllegalArgumentException.class, () -> new Name(invalidName));
     }
 
@@ -29,6 +29,10 @@ public class NameTest {
         assertFalse(Name.isValidName(" ")); // spaces only
         assertFalse(Name.isValidName("^")); // only non-alphanumeric characters
         assertFalse(Name.isValidName("peter*")); // contains non-alphanumeric characters
+
+        // test bounds
+        assertFalse(Name.isValidName("a".repeat(51))); // too long
+        assertTrue(Name.isValidName("a".repeat(50))); // max length
 
         // valid name
         assertTrue(Name.isValidName("peter jack")); // alphabets only

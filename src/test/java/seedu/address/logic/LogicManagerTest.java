@@ -92,7 +92,7 @@ public class LogicManagerTest {
         // Test adding person without details prefix - should default to "No details"
         String addCommand = AddCommand.COMMAND_WORD + NAME_DESC_AMY + PHONE_DESC_AMY
                 + EMAIL_DESC_AMY + ADDRESS_DESC_AMY;
-        Person expectedPerson = new PersonBuilder(AMY).withTags().withDetails("No details").build();
+        Person expectedPerson = new PersonBuilder(AMY).withTags().withDetails("").build();
         Model expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
         expectedModel.addPerson(expectedPerson);
         String expectedMessage = String.format(AddCommand.MESSAGE_SUCCESS, Messages.format(expectedPerson));
@@ -195,7 +195,7 @@ public class LogicManagerTest {
         String deleteCommand = "delete 12345678";
         String confirmCommand = "y";
 
-        Person personToDelete = new PersonBuilder(AMY).withTags().withDetails("No details")
+        Person personToDelete = new PersonBuilder(AMY).withTags().withDetails("")
                 .withPhone("12345678").build();
         model.addPerson(personToDelete);
 
@@ -217,7 +217,7 @@ public class LogicManagerTest {
         String deleteCommand = "delete 12345678";
         String confirmCommand = "n";
 
-        Person personToDelete = new PersonBuilder(AMY).withTags().withDetails("No details")
+        Person personToDelete = new PersonBuilder(AMY).withTags().withDetails("")
                 .withPhone("12345678").build();
         model.addPerson(personToDelete);
 
@@ -236,7 +236,7 @@ public class LogicManagerTest {
         String addCommand = AddCommand.COMMAND_WORD + NAME_DESC_AMY + PHONE_DESC_AMY
                 + EMAIL_DESC_AMY + ADDRESS_DESC_AMY;
 
-        Person expectedPerson = new PersonBuilder(AMY).withTags().withDetails("No details").build();
+        Person expectedPerson = new PersonBuilder(AMY).withTags().withDetails("").build();
         Model expectedModelAfterAdd = new ModelManager(model.getAddressBook(), new UserPrefs());
         expectedModelAfterAdd.addPerson(expectedPerson);
 
@@ -255,7 +255,7 @@ public class LogicManagerTest {
     public void execute_undoAfterDeleteConfirmation_success() throws Exception {
         String deleteCommand = "delete 12345678";
 
-        Person personToDelete = new PersonBuilder(AMY).withTags().withDetails("No details")
+        Person personToDelete = new PersonBuilder(AMY).withTags().withDetails("")
                 .withPhone("12345678").build();
         model.addPerson(personToDelete);
 

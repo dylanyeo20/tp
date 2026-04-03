@@ -28,7 +28,6 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
-import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
 import static seedu.address.testutil.TypicalIndexes.INDEX_THIRD_PERSON;
@@ -39,9 +38,7 @@ import seedu.address.commons.core.index.Index;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.EditCommand;
 import seedu.address.logic.commands.EditCommand.EditPersonDescriptor;
-import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.person.Address;
-import seedu.address.model.person.Details;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Phone;
@@ -210,25 +207,27 @@ public class EditCommandParserTest {
     }
 
     @Test
-    public void parse_emptyDetails_success() {
+    public void parse_emptyDetails_success() throws Exception {
         Index targetIndex = INDEX_FIRST_PERSON;
         String userInput = targetIndex.getOneBased() + " d/";
-        EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder().build();
+        EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder()
+                .withDetails("").build();
 
-        // empty details - should throw validation exception
-        assertThrows(ParseException.class, Details.MESSAGE_CONSTRAINTS, () ->
-                parser.parse(userInput));
+        // empty details - should succeed
+        EditCommand expectedCommand = new EditCommand(targetIndex, descriptor);
+        assertParseSuccess(parser, userInput, expectedCommand);
     }
 
     @Test
-    public void parse_blankDetails_throwsParseException() {
+    public void parse_blankDetails_success() throws Exception {
         Index targetIndex = INDEX_FIRST_PERSON;
         String userInput = targetIndex.getOneBased() + " d/ ";
-        EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder().build();
+        EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder()
+                .withDetails("").build();
 
-        // blank details - should throw validation exception
-        assertThrows(ParseException.class, Details.MESSAGE_CONSTRAINTS, () ->
-                parser.parse(userInput));
+        // blank details (whitespace only) - should succeed because Details constructor trims to empty
+        EditCommand expectedCommand = new EditCommand(targetIndex, descriptor);
+        assertParseSuccess(parser, userInput, expectedCommand);
     }
 
     @Test
