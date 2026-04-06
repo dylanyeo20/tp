@@ -68,7 +68,7 @@ public class DeleteCommand extends Command {
 
         pendingDeleteCommand = this;
         pendingDeleteCommandText = commandText.trim();
-        return new CommandResult(String.format(MESSAGE_CONFIRMATION_PROMPT, Messages.format(personToDelete)));
+        return new CommandResult(String.format(MESSAGE_CONFIRMATION_PROMPT, personToDelete.getName()));
     }
 
     /**

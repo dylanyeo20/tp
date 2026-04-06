@@ -3,6 +3,7 @@ package seedu.address.logic.commands;
 import static java.util.Objects.requireNonNull;
 
 import java.util.List;
+import java.util.Objects;
 
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.DateTimeUtil;
@@ -18,15 +19,21 @@ import seedu.address.model.person.Person;
 public class MeetingCommand extends Command {
 
     public static final String COMMAND_WORD = "meeting";
+    public static final String CLEAR_KEYWORD = "clear";
     public static final String MESSAGE_MEETING_ADDED =
             "Added meeting for %1$s on %2$s";
+    public static final String MESSAGE_MEETING_CLEARED =
+            "Cleared meeting for %1$s";
     public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Adds a meeting date and time for the client identified by the displayed index.\n"
-            + "Parameters: INDEX (must be a positive integer) DATE_TIME\n"
+            + ": Adds or clears a meeting for the client identified by the displayed index.\n"
+            + "Parameters: INDEX (must be a positive integer) DATE_TIME / " + CLEAR_KEYWORD + "\n"
+            + "Example: " + COMMAND_WORD + " 1 25/03/2030 14:30\n"
+            + "Example: " + COMMAND_WORD + " 1 " + CLEAR_KEYWORD + "\n"
             + DateTimeUtil.MESSAGE_INVALID_DATE_TIME_FORMAT;
 
     private final Index index;
     private final Meeting meeting;
+    private final boolean isClearMeeting;
 
     /**
      * Creates a {@code MeetingCommand} for the person at the specified {@code index}.
@@ -35,10 +42,25 @@ public class MeetingCommand extends Command {
      * @param meeting Meeting to assign.
      */
     public MeetingCommand(Index index, Meeting meeting) {
+        this(index, meeting, false);
+    }
+
+    private MeetingCommand(Index index, Meeting meeting, boolean isClearMeeting) {
         requireNonNull(index);
-        requireNonNull(meeting);
+        if (!isClearMeeting) {
+            requireNonNull(meeting);
+        }
         this.index = index;
         this.meeting = meeting;
+        this.isClearMeeting = isClearMeeting;
+    }
+
+    /**
+     * Creates a {@code MeetingCommand} that clears the meeting of the specified person.
+     */
+    public static MeetingCommand clear(Index index) {
+        requireNonNull(index);
+        return new MeetingCommand(index, null, true);
     }
 
     /**
@@ -73,9 +95,12 @@ public class MeetingCommand extends Command {
                 personToEdit.getDetails(),
                 personToEdit.getTags(),
                 personToEdit.getIsFavourite(),
-                meeting);
+                isClearMeeting ? null : meeting);
 
         model.setPerson(personToEdit, updatedPerson);
+        if (isClearMeeting) {
+            return new CommandResult(String.format(MESSAGE_MEETING_CLEARED, updatedPerson.getName()));
+        }
         return new CommandResult(String.format(MESSAGE_MEETING_ADDED,
                 updatedPerson.getName(), getFormattedMeeting()));
     }
@@ -99,6 +124,7 @@ public class MeetingCommand extends Command {
         }
 
         return index.equals(otherCommand.index)
-                && meeting.equals(otherCommand.meeting);
+                && isClearMeeting == otherCommand.isClearMeeting
+                && Objects.equals(meeting, otherCommand.meeting);
     }
 }

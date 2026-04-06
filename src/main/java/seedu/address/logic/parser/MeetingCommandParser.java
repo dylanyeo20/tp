@@ -45,6 +45,9 @@ public class MeetingCommandParser implements Parser<MeetingCommand> {
 
             // Combine all remaining parts as the date/time string
             String dateTimeStr = String.join(" ", java.util.Arrays.copyOfRange(parts, 1, parts.length));
+            if (dateTimeStr.equalsIgnoreCase(MeetingCommand.CLEAR_KEYWORD)) {
+                return MeetingCommand.clear(index);
+            }
 
             DateTimeUtil.DateTimeParseResult result = DateTimeUtil.parseDateTime(dateTimeStr);
             Meeting meeting = new Meeting(result.getDateTime());

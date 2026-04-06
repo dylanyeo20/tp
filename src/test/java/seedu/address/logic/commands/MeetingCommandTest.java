@@ -79,6 +79,33 @@ public class MeetingCommandTest {
     }
 
     @Test
+    public void execute_clearMeeting_success() throws Exception {
+        Model actualModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+        Model expectedModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+        Index index = Index.fromOneBased(1);
+
+        List<Person> lastShownList = expectedModel.getFilteredPersonList();
+        Person personToEdit = lastShownList.get(index.getZeroBased());
+        Person updatedPerson = new Person(
+                personToEdit.getName(),
+                personToEdit.getPhone(),
+                personToEdit.getEmail(),
+                personToEdit.getAddress(),
+                personToEdit.getDetails(),
+                personToEdit.getTags(),
+                personToEdit.getIsFavourite(),
+                null);
+        expectedModel.setPerson(personToEdit, updatedPerson);
+
+        MeetingCommand command = MeetingCommand.clear(index);
+        CommandResult commandResult = command.execute(actualModel);
+
+        assertEquals(String.format(MeetingCommand.MESSAGE_MEETING_CLEARED, updatedPerson.getName()),
+                commandResult.getFeedbackToUser());
+        assertEquals(expectedModel, actualModel);
+    }
+
+    @Test
     public void execute_nullModel_throwsNullPointerException() {
         Meeting meeting = new Meeting(LocalDateTime.of(2030, 3, 25, 14, 30));
         MeetingCommand meetingCommand = new MeetingCommand(Index.fromOneBased(1), meeting);
@@ -90,6 +117,7 @@ public class MeetingCommandTest {
         Meeting meeting = new Meeting(LocalDateTime.of(2030, 3, 25, 14, 30));
         assertThrows(NullPointerException.class, () -> new MeetingCommand(null, meeting));
         assertThrows(NullPointerException.class, () -> new MeetingCommand(Index.fromOneBased(1), null));
+        assertThrows(NullPointerException.class, () -> MeetingCommand.clear(null));
     }
 
     @Test
@@ -113,6 +141,8 @@ public class MeetingCommandTest {
         MeetingCommand different = new MeetingCommand(Index.fromOneBased(2), meeting3);
         MeetingCommand sameIndexDifferentDate = new MeetingCommand(Index.fromOneBased(1), meeting4);
         MeetingCommand sameIndexAndDateDifferentTime = new MeetingCommand(Index.fromOneBased(1), meeting5);
+        MeetingCommand clearFirst = MeetingCommand.clear(Index.fromOneBased(1));
+        MeetingCommand clearFirstCopy = MeetingCommand.clear(Index.fromOneBased(1));
         Object otherObject = new ArrayList<>();
 
         assertTrue(first.equals(first));
@@ -120,6 +150,8 @@ public class MeetingCommandTest {
         assertFalse(first.equals(different));
         assertFalse(first.equals(sameIndexDifferentDate));
         assertFalse(first.equals(sameIndexAndDateDifferentTime));
+        assertTrue(clearFirst.equals(clearFirstCopy));
+        assertFalse(first.equals(clearFirst));
         assertFalse(first.equals(otherObject));
         assertFalse(first.equals(null));
     }

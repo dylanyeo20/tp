@@ -25,6 +25,8 @@ public class MeetingCommandParserTest {
                 new MeetingCommand(Index.fromOneBased(1),
                         new Meeting(LocalDate.of(2030, 3, 25).atTime(14, 30))));
 
+        assertParseSuccess(parser, "1 clear", MeetingCommand.clear(Index.fromOneBased(1)));
+
         // Test new flexible formats
         assertParseSuccess(parser, "1 25 Mar 2030 4pm",
                 new MeetingCommand(Index.fromOneBased(1),
