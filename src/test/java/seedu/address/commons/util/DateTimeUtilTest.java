@@ -347,6 +347,8 @@ public class DateTimeUtilTest {
         assertThrows(IllegalArgumentException.class, () -> DateTimeUtil.parseDateTime("32 Mar 2025 4pm"));
         assertThrows(IllegalArgumentException.class, () -> DateTimeUtil.parseDateTime("15 Foo 2025 4pm"));
         assertThrows(IllegalArgumentException.class, () -> DateTimeUtil.parseDateTime("15 Mar 2025 25:00"));
+        assertThrows(IllegalArgumentException.class, () -> DateTimeUtil.parseDateTime("todayyyyy 4pm"));
+        assertThrows(IllegalArgumentException.class, () -> DateTimeUtil.parseDateTime("mondayyy 2pm"));
     }
 
     @Test

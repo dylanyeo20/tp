@@ -157,11 +157,12 @@ public class DateTimeUtil {
         checkArgument(dateTimeStr != null && !dateTimeStr.trim().isEmpty(), "Date/time string cannot be null or empty");
 
         String trimmedStr = dateTimeStr.trim();
+        String firstToken = getFirstToken(trimmedStr);
 
         // Handle relative dates first
-        if (trimmedStr.toLowerCase().startsWith("today")) {
+        if (firstToken.equalsIgnoreCase("today")) {
             return parseRelativeDate(trimmedStr, 0);
-        } else if (trimmedStr.toLowerCase().startsWith("tomorrow")) {
+        } else if (firstToken.equalsIgnoreCase("tomorrow")) {
             return parseRelativeDate(trimmedStr, 1);
         } else if (isWeekday(trimmedStr)) {
             return parseWeekday(trimmedStr);
@@ -301,16 +302,20 @@ public class DateTimeUtil {
     }
 
     private static boolean isWeekday(String input) {
-        String lowerInput = input.toLowerCase().trim();
+        String lowerInput = getFirstToken(input).toLowerCase(Locale.ENGLISH);
         String[] weekdays = {"monday", "mon", "tuesday", "tue", "wednesday", "wed",
             "thursday", "thu", "friday", "fri", "saturday", "sat", "sunday", "sun"};
 
         for (String weekday : weekdays) {
-            if (lowerInput.startsWith(weekday)) {
+            if (lowerInput.equals(weekday)) {
                 return true;
             }
         }
         return false;
+    }
+
+    private static String getFirstToken(String input) {
+        return input.trim().split("\\s+", 2)[0];
     }
 
     private static DateTimeParseResult parseWeekday(String input) {
