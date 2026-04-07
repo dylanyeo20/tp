@@ -48,7 +48,10 @@ public class LogicManagerTest {
     private Logic logic;
 
     @BeforeEach
-    public void setUp() {
+    public void setUp() throws CommandException {
+        if (DeleteCommand.hasPendingConfirmation()) {
+            DeleteCommand.confirmationCommand(model, "n");
+        }
         JsonAddressBookStorage addressBookStorage =
                 new JsonAddressBookStorage(temporaryFolder.resolve("addressBook.json"));
         JsonUserPrefsStorage userPrefsStorage = new JsonUserPrefsStorage(temporaryFolder.resolve("userPrefs.json"));
@@ -200,7 +203,7 @@ public class LogicManagerTest {
         model.addPerson(personToDelete);
 
         String expectedConfirmationMessage = String.format(DeleteCommand.MESSAGE_CONFIRMATION_PROMPT,
-                Messages.format(personToDelete));
+                personToDelete.getName());
         String expectedMessage = String.format(DeleteCommand.MESSAGE_DELETE_PERSON_SUCCESS,
                 Messages.format(personToDelete));
 
@@ -222,7 +225,7 @@ public class LogicManagerTest {
         model.addPerson(personToDelete);
 
         String expectedConfirmationMessage = String.format(DeleteCommand.MESSAGE_CONFIRMATION_PROMPT,
-                Messages.format(personToDelete));
+                personToDelete.getName());
         String expectedMessage = DeleteCommand.MESSAGE_DELETION_CANCELLED;
 
         Model expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
@@ -264,7 +267,7 @@ public class LogicManagerTest {
         Model expectedModelAfterUndo = new ModelManager(model.getAddressBook(), new UserPrefs());
 
         assertCommandSuccess(deleteCommand,
-                String.format(DeleteCommand.MESSAGE_CONFIRMATION_PROMPT, Messages.format(personToDelete)),
+                String.format(DeleteCommand.MESSAGE_CONFIRMATION_PROMPT, personToDelete.getName()),
                 expectedModelAfterUndo);
         assertCommandSuccess("y",
                 String.format(DeleteCommand.MESSAGE_DELETE_PERSON_SUCCESS, Messages.format(personToDelete)),
