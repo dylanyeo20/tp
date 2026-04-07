@@ -17,15 +17,15 @@ public class CommandResult {
     private final boolean isShowingHelp;
 
     /** The application should exit. */
-    private final boolean exit;
+    private final boolean isExiting;
 
     /**
      * Constructs a {@code CommandResult} with the specified fields.
      */
-    public CommandResult(String feedbackToUser, boolean isShowingHelp, boolean exit) {
+    public CommandResult(String feedbackToUser, boolean isShowingHelp, boolean isExiting) {
         this.feedbackToUser = requireNonNull(feedbackToUser);
         this.isShowingHelp = isShowingHelp;
-        this.exit = exit;
+        this.isExiting = isExiting;
     }
 
     /**
@@ -44,8 +44,8 @@ public class CommandResult {
         return isShowingHelp;
     }
 
-    public boolean isExit() {
-        return exit;
+    public boolean isExiting() {
+        return isExiting;
     }
 
     @Override
@@ -62,12 +62,12 @@ public class CommandResult {
         CommandResult otherCommandResult = (CommandResult) other;
         return feedbackToUser.equals(otherCommandResult.feedbackToUser)
                 && isShowingHelp == otherCommandResult.isShowingHelp
-                && exit == otherCommandResult.exit;
+                && isExiting == otherCommandResult.isExiting;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(feedbackToUser, isShowingHelp, exit);
+        return Objects.hash(feedbackToUser, isShowingHelp, isExiting);
     }
 
     @Override
@@ -75,7 +75,7 @@ public class CommandResult {
         return new ToStringBuilder(this)
                 .add("feedbackToUser", feedbackToUser)
                 .add("showHelp", isShowingHelp)
-                .add("exit", exit)
+                .add("exit", isExiting)
                 .toString();
     }
 
