@@ -73,7 +73,7 @@ public class MarkAsFavouriteCommandTest {
                 personToEdit.getDetails(),
                 personToEdit.getTags(),
                 true,
-                null);
+                personToEdit.getMeeting().orElse(null));
 
         testModel.setPerson(personToEdit, markedPerson);
 
