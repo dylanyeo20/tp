@@ -95,9 +95,9 @@ Action | Description                                                    | Format
 **Find** | [Finds persons by name or phone](#locating-persons-find)       | `find KEYWORD [MORE_KEYWORDS]` for name search<br> `find p/PHONE_NUMBER` for phone search<br> e.g., `find James Jake` or `find p/98765432`
 **Delete** | [Deletes a person](#deleting-a-person--delete)                 | `delete PHONE`<br> e.g., `delete 91234567`
 **Clear** | [Clears all entries](#clearing-all-entries--clear)             | `clear`
-**Mark** | [Adds contact into favourites](#favourites-mark-and-unmark)    | `mark INDEX` <br> Example: `mark 1`
-**Unmark** | [Removes contact from favourites](#favourites-mark-and-unmark) | `unmark INDEX` <br> Example: `unmark 1`
-**Meeting** | [Adds or clears a meeting for a contact](#adding-a-meeting-meeting)  | `meeting INDEX DATE_TIME` or `meeting INDEX clear` <br> Example: `meeting 1 mon 2pm`
+**Mark** | [Adds contact into favourites](#favourites-mark-and-unmark)    | `mark INDEX` <br> e.g., `mark 1`
+**Unmark** | [Removes contact from favourites](#favourites-mark-and-unmark) | `unmark INDEX` <br> e.g., `unmark 1`
+**Meeting** | [Adds or clears a meeting for a contact](#adding-a-meeting-meeting)  | `meeting INDEX DATE_TIME` or `meeting INDEX clear` <br> e.g., `meeting 1 mon 2pm`
 **Undo** | [Undo previous changes](#undo)                                 | `undo`
 **List** | [Lists all persons](#listing-all-persons-list)                 | `list`
 **Favourites** | [View favourites](#Viewing-favourites)                         | `favourites`

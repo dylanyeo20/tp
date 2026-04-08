@@ -23,7 +23,7 @@ Refer to the guide [_Setting up and getting started_](SettingUp.md).
 
 --------------------------------------------------------------------------------------------------------------------
 
-![img.png](img.png)## **Design**
+## **Design**
 
 <div markdown="span" class="alert alert-primary">
 
