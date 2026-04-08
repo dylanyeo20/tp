@@ -363,6 +363,9 @@ All data is stored in:
 
 `[JAR file location]/data/addressbook.json`
 
+CLIentTracker is intended for **medium to moderately large contact lists**. Performance may degrade for very large
+datasets, especially above **50,000 to 100,000 contacts**, depending on your device's memory and CPU.
+
 ---
 
 ### :pencil2: Editing the data file
