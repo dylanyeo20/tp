@@ -19,11 +19,11 @@ public class DeleteCommand extends Command {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Deletes the person based on their contact number.\n"
-            + "Parameters: Phone Number (must be 8 digits)\n"
+            + "Parameters: Ensure Phone Number matches exactly \n"
             + "Example: " + COMMAND_WORD + " 91234567";
 
     public static final String MESSAGE_DELETE_PERSON_SUCCESS = "Deleted Person: %1$s";
-    public static final String MESSAGE_PHONE_NOT_FOUND = "No person found with phone number: %1$s";
+    public static final String MESSAGE_PHONE_NOT_FOUND = "No person found with this specific phone number: %1$s";
     public static final String MESSAGE_CONFIRMATION_PROMPT = "Are you sure you want to delete this contact? %1$s (y/n)";
     public static final String MESSAGE_CONFIRMATION_REQUIRED = "Please enter 'y' to confirm or 'n' to cancel.";
     public static final String MESSAGE_DELETION_CANCELLED = "Deletion cancelled.";

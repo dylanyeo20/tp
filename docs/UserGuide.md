@@ -96,8 +96,8 @@ Action | Description                                                    | Format
 **Delete** | [Deletes a person](#deleting-a-person--delete)                 | `delete PHONE`<br> e.g., `delete 91234567`
 **Clear** | [Clears all entries](#clearing-all-entries--clear)             | `clear`
 **Mark** | [Adds contact into favourites](#favourites-mark-and-unmark)    | `mark INDEX` <br> Example: `mark 1`
-**Unmark** | [Removes contact from favourites](#favourites-mark-and-unmark) | `unmark INDEX` <br> Example: `mark 1`
-**Meeting** | [Adds meeting datetime to contact](#adding-a-meeting-meeting)  | `meeting INDEX DATE_TIME` <br> Example: `meeting 1 mon 2pm`
+**Unmark** | [Removes contact from favourites](#favourites-mark-and-unmark) | `unmark INDEX` <br> Example: `unmark 1`
+**Meeting** | [Adds or clears a meeting for a contact](#adding-a-meeting-meeting)  | `meeting INDEX DATE_TIME` or `meeting INDEX clear` <br> Example: `meeting 1 mon 2pm`
 **Undo** | [Undo previous changes](#undo)                                 | `undo`
 **List** | [Lists all persons](#listing-all-persons-list)                 | `list`
 **Favourites** | [View favourites](#Viewing-favourites)                         | `favourites`
@@ -131,7 +131,7 @@ Behavior:
 * If a contact with the same phone number already exists, the new contact will not be added.
 * Name must be 1-50 characters and contain only alphanumeric characters and spaces.
 * Details will default to empty if parameter not used.
-* Details must not be over512 characters and cannot be empty.
+* Details must not be over 512 characters and cannot be empty.
 * Email will default to empty if parameter not used.
 * Email must be 2-254 characters if provided, or empty to represent no email.
 * Address will default to empty if parameter not used.
@@ -139,7 +139,7 @@ Behavior:
 
 Examples:
 * `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01`
-* `add n/Betsy Crowe a/Newgate Prison p/1234567 t/BUYER`
+* `add n/Betsy Crowe a/Newgate Prison p/12345678 t/BUYER`
 * `add n/Alex Yeoh p/87438807 e/alexyeoh@example.com a/Blk 30 Geylang Street 29, #06-40 d/Looking for apartment near city`
 
 ---
@@ -160,7 +160,7 @@ Parameters:
 * `t/` : Tags of the new contact [optional] (*Valid tags: "Renter", "Landlord", "Buyer", "Seller"*)
 
 Behavior:
-* The index field is mandatory and **must be a positive integer smaller than the number of contacts**
+* The index field is mandatory and **must be a positive integer smaller than the number of contacts in the shown list**
 * At least one of the optional fields must be provided.
 * Existing values will be updated to the input values.
 * When editing tags, the existing tags of the person will be removed i.e adding of tags is not cumulative.
@@ -179,6 +179,12 @@ Examples:
 *  `edit 3 d/` Clears the details of the 3rd person.
 *  `edit 4 e/` Clears the email of the 4th person.
 *  `edit 5 a/` Clears the address of the 5th person.
+
+#### **Important Notes:**
+- If you want to change a specific field, **remember to have a white space before the prefix**
+  - ❌ `edit 1 a/yishunp/12345678`
+  - ✅ `edit 1 a/yishun p/12345678`
+  - ✅ `edit 1 d/want Sentosa/Yishun`
 
 ---
 
@@ -200,49 +206,64 @@ Search for persons using keywords across all fields or within specific fields.
 - `e/` — email
 - `d/` — details
 
+> ⚠️ Prefix rules:
+> - Prefixes are **case-sensitive** and must be in lowercase
+    >   - ❌ `N/Alex` is invalid
+>   - ✅ `n/Alex` is valid
+> - Prefixes must be **preceded by a space**
+    >   - ❌ `find n/Alexp/1234`
+>   - ✅ `find n/Alex p/1234`
 
 #### **General Search:**
 - Searches across **all fields**
 - Case-insensitive (`alex` = `Alex`)
 - Supports partial matches (`lex` → `Alex`)
-- Keywords must be **separated by commas**
+- Keywords are **comma-separated**
+- If no commas are used, the entire input is treated as a **single keyword**
 - Matches if **any keyword** is found (**OR** logic)
-- Examples:
-  - `find alex`
-  - `find alex, bob`
-  - `find 9876`
+
+**Examples:**
+- `find alex`
+- `find alex, bob`
+- `find alex bob` *(searches for "alex bob" as one phrase)*
+- `find 9876`
+
 
 #### **Field-Specific Search:**
 - Searches only within specified field(s)
 - Case-insensitive and supports partial matches
-- Keywords must be **separated by commas**
-- Examples:
-  - `find n/Alex`
-  - `find p/9876`
-  - `find n/Alex, Bob p/9123`
+- Keywords must be **comma-separated**
 
-**Rules:**
+**Examples:**
+- `find n/Alex`
+- `find p/9876`
+- `find n/Alex, Bob p/9123`
+
+
+#### **Rules:**
 - Keywords within the same prefix use **OR**
-    - `find n/Alex, Bob` → name contains *Alex* or *Bob*
+  - `find n/Alex, Bob` → name contains *Alex* or *Bob*
 - Different prefixes use **AND**
-    - `find n/Alex p/9123` → name contains *Alex* AND phone contains *9123*
+  - `find n/Alex p/9123` → name contains *Alex* AND phone contains *9123*
+
 
 #### **Important Notes:**
 - You **cannot mix general search and prefix search**
-    - ❌ `find alex p/9876`
-- All keywords must be **comma-separated**
-    - ❌ `find n/Alex Bob`
-    - ✅ `find n/Alex, Bob`
+  - ❌ `find alex p/9876`
+- Commas are required if you want to separate multiple keywords
+  - ❌ `find n/Alex Bob` 
+  - ✅ `find n/Alex, Bob`
 
 
 ---
 
 ### Adding a meeting: `meeting`
-Adds a meeting date and time for a client identified by the displayed index number.
+Adds or clears a meeting for a client identified by the displayed index number.
 
-Format: `meeting INDEX DATE_TIME`
+Format: `meeting INDEX DATE_TIME` or `meeting INDEX clear`
 
 * The **INDEX** refers to the index number shown in the displayed person list.
+* Use `clear` to remove an existing meeting from the selected client.
 * The **DATE_TIME** can be entered in various flexible formats:
 
 **Relative Date formats:**
@@ -282,6 +303,7 @@ Format: `meeting INDEX DATE_TIME`
 - `meeting 7 tomorrow 9am` (tomorrow at 9 AM)
 - `meeting 8 monday 2pm` (next Monday at 2 PM)
 - `meeting 9 fri 1600` (next Friday at 4 PM)
+- `meeting 1 clear` (clears the meeting for the 1st person)
 
 ### ⚠️ Important Notes
 - Meeting dates and times must be in the future
@@ -295,6 +317,7 @@ Examples:
 * `meeting 2 15 Mar 2030 4pm` Adds meeting for 2nd person
 * `meeting 3 Today 2359` Adds meeting for today at 11:59 PM
 * `meeting 4 Monday 9am` Adds meeting for next Monday at 9:00 AM
+* `meeting 1 clear` Clears meeting for 1st person
 
 ---
 
@@ -306,7 +329,7 @@ Format: `delete PHONE`
 
 * Deletes the person with `PHONE`.
   * The PHONE refers to the index number shown in the displayed person list.
-  * The PHONE **must consist of 8 positive integer** 91234567, 01010101…​
+  * The PHONE **must match fully  **​
   * Confirm with y/n after delete command was entered
 
 Examples:
@@ -394,7 +417,7 @@ There is **no need to press a save button**. Everything is stored locally on you
 
 All data is stored in:
 
-`[JAR file location]/data/addressbook.json`
+`[CLIentTracker file location]/data/addressbook.json`
 
 CLIentTracker is intended for **medium to moderately large contact lists**. Performance may degrade for very large
 datasets, especially above **50,000 to 100,000 contacts**, depending on your device's memory and CPU.
@@ -403,7 +426,7 @@ datasets, especially above **50,000 to 100,000 contacts**, depending on your dev
 
 ### :pencil2: Editing the data file
 
-Client Tracker data are saved automatically as a JSON file `[JAR file location]/data/addressbook.json`. Advanced users are welcome to update data directly by editing that data file.
+Client Tracker data are saved automatically as a JSON file `[CLIentTracker file location]/data/addressbook.json`. Advanced users are welcome to update data directly by editing that data file.
 
 <div markdown="span" cl ass="alert alert-warning">:exclamation: **Caution:**
 If your changes to the data file makes its format invalid, Client Tracker will discard all data and start with an empty data file at the next run. Hence, it is recommended to take a backup of the file before editing it.<br>

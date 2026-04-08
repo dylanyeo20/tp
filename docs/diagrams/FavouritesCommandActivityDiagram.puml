@@ -1,0 +1,25 @@
+@startuml
+!include style.puml
+skin rose
+skinparam ActivityFontSize 15
+skinparam ArrowFontSize 12
+
+start
+:User enters favourites command;
+:System processes command;
+
+:Update filtered person list
+with isFavourite predicate;
+
+note right
+  Predicate: person -> person.getIsFavourite()
+  Filters to show only favourite persons
+end note
+
+:Display filtered list
+to user;
+
+:Show success message;
+
+stop
+@enduml

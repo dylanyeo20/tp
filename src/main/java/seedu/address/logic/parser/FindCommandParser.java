@@ -17,7 +17,7 @@ import seedu.address.model.person.SearchPersonForKeyword;
  */
 public class FindCommandParser implements Parser<FindCommand> {
 
-    private static final String PREFIX_REGEX = "(?=[npaed]/)";
+    private static final String PREFIX_REGEX = "(?=(^|\\s)[a-zA-Z]/)";
 
     /**
      * Parses the given {@code String} of arguments in the context of the FindCommand
@@ -119,22 +119,28 @@ public class FindCommandParser implements Parser<FindCommand> {
             if (part.isEmpty()) {
                 continue;
             }
-            assert part.matches("[npaed]/.*") : "Invalid prefix encountered: " + part;
-
-            if (part.startsWith("n/")) {
-                addTaggedValues(fieldMap, "n/", part.substring(2));
-            } else if (part.startsWith("p/")) {
-                addTaggedValues(fieldMap, "p/", part.substring(2));
-            } else if (part.startsWith("e/")) {
-                addTaggedValues(fieldMap, "e/", part.substring(2));
-            } else if (part.startsWith("a/")) {
-                addTaggedValues(fieldMap, "a/", part.substring(2));
-            } else if (part.startsWith("d/")) {
-                addTaggedValues(fieldMap, "d/", part.substring(2));
-            } else {
+            if (!part.matches("[npaed]/.*")) {
                 throw new ParseException(
                         String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
             }
+
+            String prefix = part.substring(0, 2);
+            String value = part.substring(2).trim();
+            String[] values = value.split(",");
+
+            boolean hasValidValue = false;
+            for (String v : values) {
+                if (!v.trim().isEmpty()) {
+                    hasValidValue = true;
+                    break;
+                }
+            }
+            if (!hasValidValue) {
+                throw new ParseException(
+                        String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
+            }
+
+            addTaggedValues(fieldMap, prefix, value);
         }
     }
 

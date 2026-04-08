@@ -1,0 +1,47 @@
+@startuml
+!include style.puml
+skinparam arrowThickness 1.1
+skinparam arrowColor LOGIC_COLOR
+skinparam classBackgroundColor LOGIC_COLOR
+
+package Logic as LogicPackage {
+
+package "Commands" #F4F6F6{
+Class "{abstract}\nCommand" as Command
+Class FavouritesCommand
+Class CommandResult
+}
+
+}
+
+package Model as ModelPackage {
+
+package "Core Model" #F4F6F6{
+Class "<<interface>>\nModel" as Model
+Class ModelManager
+}
+
+package "Person" #F4F6F6{
+Class Person
+Class FilteredList
+}
+
+}
+
+Class HiddenOutside #FFFFFF
+HiddenOutside ..> Command
+
+FavouritesCommand -up-|> Command
+FavouritesCommand .right.> Model : uses
+FavouritesCommand ..> CommandResult : creates
+
+Model <|.. ModelManager
+ModelManager --> FilteredList : contains
+FilteredList --> "*" Person : filters
+
+note right of FavouritesCommand
+  Uses predicate: person -> person.getIsFavourite()
+  No parser needed (no arguments)
+end note
+
+@enduml
