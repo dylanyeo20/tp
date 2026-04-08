@@ -21,6 +21,7 @@ Class Meeting
 Class Name
 Class Phone
 Class Tag
+Enum ClientTag
 
 Class I #FFFFFF
 }
@@ -37,15 +38,16 @@ ModelManager -left-> "1" AddressBook
 ModelManager -right-> "1" UserPrefs
 UserPrefs .up.|> ReadOnlyUserPrefs
 
-AddressBook *--> "1" UniquePersonList
-UniquePersonList --> "~* all" Person
-Person *--> Name
-Person *--> Phone
-Person *--> Email
-Person *--> Address
-Person *--> Details
+AddressBook *--> UniquePersonList
+UniquePersonList --> Person
+Person *--> "1" Name
+Person *--> "1" Phone
+Person *--> "0..1" Email
+Person *--> "0..1" Address
+Person *--> "0..1" Details
 Person *--> "0..1" Meeting
 Person *--> "*" Tag
+Tag *--> ClientTag
 
 Person -[hidden]up--> I
 UniquePersonList -[hidden]right-> I
@@ -55,5 +57,5 @@ Phone -[hidden]right-> Address
 Address -[hidden]right-> Email
 Email -[hidden]right-> Details
 
-ModelManager --> "~* filtered" Person
+ModelManager --> Person
 @enduml

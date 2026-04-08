@@ -9,10 +9,11 @@ title: Developer Guide
 
 ## **Acknowledgements**
 
-* Used Windsurf to generate some of the JavaDocs
-* Used Windsurf to help with most tests
+* Used AI to generate some of the JavaDocs
+* Used AI to help with most tests
 * Used AI to generate sample data
 * Used AI to identify bugs
+* Used AI to help improve the Developer Guide, User Guide, and documentation formatting
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -22,7 +23,7 @@ Refer to the guide [_Setting up and getting started_](SettingUp.md).
 
 --------------------------------------------------------------------------------------------------------------------
 
-## **Design**
+![img.png](img.png)## **Design**
 
 <div markdown="span" class="alert alert-primary">
 
@@ -129,13 +130,8 @@ The `Model` component,
 * stores the address book data i.e., all `Person` objects (which are contained in a `UniquePersonList` object).
 * stores the currently 'selected' `Person` objects (e.g., results of a search query) as a separate _filtered_ list which is exposed to outsiders as an unmodifiable `ObservableList<Person>` that can be 'observed' e.g. the UI can be bound to this list so that the UI automatically updates when the data in the list change.
 * stores a `UserPref` object that represents the user’s preferences. This is exposed to the outside as a `ReadOnlyUserPref` objects.
+* stores tags in each `Person` as a `Set<Tag>`, where valid tag values are constrained by the `ClientTag` enum to `RENTER`, `LANDLORD`, `BUYER`, and `SELLER`.
 * does not depend on any of the other three components (as the `Model` represents data entities of the domain, they should make sense on their own without depending on other components)
-
-<div markdown="span" class="alert alert-info">:information_source: **Note:** An alternative (arguably, a more OOP) model is given below. It has a `Tag` list in the `AddressBook`, which `Person` references. This allows `AddressBook` to only require one `Tag` object per unique tag, instead of each `Person` needing their own `Tag` objects.<br>
-
-<img src="images/BetterModelClassDiagram.png" width="450" />
-
-</div>
 
 
 ### Storage component
@@ -178,17 +174,11 @@ together with the command text. Given below is an example usage scenario and how
 Step 1. The user launches the application for the first time. The undo history is initially empty because no modifying
 commands have been executed yet.
 
-![UndoRedoState0](images/UndoRedoState0.png)
-
 Step 2. The user executes `delete 91234567`. After confirmation, `LogicManager` saves the current address book state
 using `Model#saveAddressBookState(...)` before the deletion is applied.
 
-![UndoRedoState1](images/UndoRedoState1.png)
-
 Step 3. The user executes `add n/David …​` to add a new person. Before the `add` command modifies the address book,
 `LogicManager` saves the current state by calling `Model#saveAddressBookState(...)`.
-
-![UndoRedoState2](images/UndoRedoState2.png)
 
 <div markdown="span" class="alert alert-info">:information_source: **Note:** If a command fails before completing, no new
 address book state is pushed onto the undo history.
@@ -199,37 +189,23 @@ Step 4. The user now decides that adding the person was a mistake, and decides t
 `undo` command. The `undo` command calls `Model#undoAddressBook()`, which restores the most recently saved address book
 state.
 
-![UndoRedoState3](images/UndoRedoState3.png)
-
 <div markdown="span" class="alert alert-info">:information_source: **Note:** If the undo history is empty, there are no
 previous address book states to restore. The `undo` command uses `Model#canUndoAddressBook()` to check this before
 attempting the undo.
 
 </div>
 
-The following sequence diagram shows how an undo operation goes through the `Logic` component:
+The sequence of interactions for undo is shown below:
 
-![UndoSequenceDiagram](images/UndoSequenceDiagram-Logic.png)
-
-<div markdown="span" class="alert alert-info">:information_source: **Note:** The lifeline for `UndoCommand` should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline reaches the end of diagram.
-
-</div>
-
-How an undo operation goes through the `Model` component is shown below:
-
-![UndoSequenceDiagram](images/UndoSequenceDiagram-Model.png)
+<img src="images/UndoSequenceDiagram.png" width="650" />
 
 Step 5. The user then decides to execute the command `list`. Commands that do not modify the address book do not save
 any new state to the undo history.
 
-![UndoRedoState4](images/UndoRedoState4.png)
-
 Step 6. The user executes `clear`. Before the command clears the address book, `LogicManager` again saves the previous
 state using `Model#saveAddressBookState(...)`, allowing the clear operation to be undone later.
 
-![UndoRedoState5](images/UndoRedoState5.png)
-
-The following activity diagram summarizes what happens when a user executes a new command:
+The command-history flow for a modifying command is summarised below:
 
 <img src="images/CommitActivityDiagram.png" width="250" />
 
@@ -246,6 +222,38 @@ The following activity diagram summarizes what happens when a user executes a ne
   * Cons: We must ensure that the implementation of each individual command are correct.
 
 
+### Mark as favourite feature
+
+The `mark` command allows users to mark a person in the currently displayed list as a favourite.
+This is implemented by replacing the selected `Person` with an updated copy whose `isFavourite` flag is set to `true`.
+
+#### Implementation
+
+When the user enters a command such as `mark 1`, `LogicManager` passes the input to `AddressBookParser`,
+which routes the command to `MarkAsFavouriteCommandParser`.
+
+`MarkAsFavouriteCommandParser#parse(String args)`:
+
+* parses the user input into an `Index` using `ParserUtil#parseIndex(...)`
+* constructs and returns a `MarkAsFavouriteCommand` with that index
+
+During execution, `MarkAsFavouriteCommand#execute(Model model)`:
+
+* retrieves the currently filtered person list from the model
+* validates that the supplied index refers to an existing displayed person
+* retrieves the target `Person` from the filtered list
+* checks whether the person is already marked as favourite
+* creates a new `Person` object that copies all existing fields and sets `isFavourite` to `true`
+* updates the address book through `Model#setPerson(personToEdit, markedPerson)`
+* returns a `CommandResult` with a success message
+
+This follows the immutable-update style used by other commands in the codebase. Instead of mutating the existing
+`Person` object, the command constructs a replacement `Person` containing the updated favourite status.
+
+The activity flow for `mark` is shown below:
+
+<img src="images/MarkAsFavouriteActivityDiagram.png" width="400" />
+
 ### Meetings feature
 
 The `meeting` command allows users to assign or clear a meeting for a person in the currently displayed list.
@@ -254,7 +262,7 @@ Its implementation is split into two main parts:
 1. parsing the user-provided date/time string into a valid `Meeting`
 2. executing the command to replace the target `Person` with an updated copy containing the new meeting, or no meeting when `clear` is used
 
-#### How the command works
+#### Implementation
 
 When the user enters a command such as `meeting 1 15 Mar 2026 4pm` or `meeting 1 clear`, `LogicManager` passes the full input to
 `AddressBookParser`, which creates a `MeetingCommandParser` for the `meeting` command word.
@@ -413,7 +421,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 | `*`      | creative user             | change the colour scheme of my address book                         | see better and edit the address book to my liking                  |
 | `*`      | clumsy user               | easily backup my contact information                                | restore old client information in case I accidentally lose it      |
 
-*{More to be added}*
+
 
 ### Use cases
 
@@ -468,20 +476,20 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
     Use case ends.
 
-**Use case: Search for a person by detail**
+**Use case: Find persons by keyword**
 
 **MSS**
 
-1. User requests to search for persons by a detail.
-2. User provides a search keyword such as name, address, or phone number.
-3. CLIentTracker searches for matching persons.
-4. CLIentTracker shows the list of matching persons.
+1. User requests to find persons using one or more keywords.
+2. User provides general keywords or field-specific keywords.
+3. CLIentTracker filters the displayed person list to matching persons.
+4. CLIentTracker shows the filtered list.
 
    Use case ends.
 
 **Extensions**
 
-* 2a. The user provides an invalid or empty search keyword.
+* 2a. The user provides an invalid search format.
 
   * 2a1. CLIentTracker shows an error message.
 
@@ -489,7 +497,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 * 4a. No persons match the search keyword.
 
-  * 4a1. CLIentTracker shows an empty result message.
+  * 4a1. CLIentTracker shows an empty list.
 
     Use case ends.
 
@@ -497,32 +505,31 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 **MSS**
 
-1. User requests to list persons.
-2. CLIentTracker shows a list of persons.
-3. User requests to edit a specific person in the list.
-4. User provides the updated detail(s).
-5. CLIentTracker updates the person’s details.
-6. CLIentTracker shows a confirmation message.
+1. User views a displayed list of persons.
+2. User requests to edit a specific person in the displayed list.
+3. User provides the updated detail(s).
+4. CLIentTracker updates the person’s details.
+5. CLIentTracker shows a confirmation message.
 
     Use case ends.
 
 **Extensions**
 
-* 2a. The list is empty.
+* 1a. The displayed list is empty.
 
     Use case ends.
 
-* 3a. The given index is invalid.
+* 2a. The given index is invalid.
+
+  * 2a1. CLIentTracker shows an error message.
+
+    Use case resumes at step 1.
+
+* 3a. The user provides invalid detail(s).
 
   * 3a1. CLIentTracker shows an error message.
 
-    Use case resumes at step 2.
-
-* 4a. The user provides invalid detail(s).
-
-  * 4a1. CLIentTracker shows an error message.
-
-    Use case resumes at step 4.
+    Use case resumes at step 3.
 
 **Use case: Clear all contacts**
 
@@ -541,6 +548,122 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 * 2a. The user cancels the clear command.
 
   * 2a1. CLIentTracker shows a cancellation message.
+
+    Use case ends.
+
+**Use case: Mark a person as favourite**
+
+**MSS**
+
+1. User views a displayed list of persons.
+2. User requests to mark a specific person in the displayed list as favourite.
+3. CLIentTracker marks the person as favourite.
+4. CLIentTracker shows a confirmation message.
+
+   Use case ends.
+
+**Extensions**
+
+* 1a. The displayed list is empty.
+
+    Use case ends.
+
+* 2a. The given index is invalid.
+
+  * 2a1. CLIentTracker shows an error message.
+  * 2a1. CLIentTracker shows an error message.
+
+    Use case resumes at step 1.
+
+* 2b. The selected person is already marked as favourite.
+
+  * 2b1. CLIentTracker shows an error message.
+
+    Use case ends.
+
+**Use case: Unmark a person as favourite**
+
+**MSS**
+
+1. User views a displayed list of persons.
+2. User requests to remove the favourite status of a specific person in the displayed list.
+3. CLIentTracker removes the person's favourite status.
+4. CLIentTracker shows a confirmation message.
+
+   Use case ends.
+
+**Extensions**
+
+* 1a. The displayed list is empty.
+
+    Use case ends.
+
+* 2a. The given index is invalid.
+
+  * 2a1. CLIentTracker shows an error message.
+
+    Use case resumes at step 1.
+
+* 2b. The selected person is not marked as favourite.
+
+  * 2b1. CLIentTracker shows an error message.
+
+    Use case ends.
+
+**Use case: View favourite persons**
+
+**MSS**
+
+1. User requests to view favourite persons.
+2. CLIentTracker filters the displayed list to persons marked as favourite.
+3. CLIentTracker shows the filtered list.
+
+   Use case ends.
+
+**Use case: Add or clear a meeting**
+
+**MSS**
+
+1. User views a displayed list of persons.
+2. User requests to add a meeting to a specific person in the displayed list, or clear an existing meeting.
+3. CLIentTracker updates the person's meeting information.
+4. CLIentTracker shows a confirmation message.
+
+   Use case ends.
+
+**Extensions**
+
+* 1a. The displayed list is empty.
+
+    Use case ends.
+
+* 2a. The given index is invalid.
+
+  * 2a1. CLIentTracker shows an error message.
+
+    Use case resumes at step 1.
+
+* 2b. The user provides an invalid or past date/time.
+
+  * 2b1. CLIentTracker shows an error message.
+
+    Use case ends.
+
+**Use case: Undo the last modifying command**
+
+**MSS**
+
+1. User requests to undo the most recent modifying command.
+2. CLIentTracker restores the previous address book state.
+3. CLIentTracker shows a confirmation message.
+
+   Use case ends.
+
+**Extensions**
+
+* 1a. There is no previous modifying command to undo.
+
+  * 1a1. CLIentTracker shows an error message.
 
     Use case ends.
 
@@ -583,9 +706,10 @@ testers are expected to do more *exploratory* testing.
 
 1. Initial launch
 
-   1. Download the jar file and copy into an empty folder
+   1. Download the jar file and copy it into an empty folder.
 
-   1. Double-click the jar file Expected: Shows the GUI with a set of sample contacts. The window size may not be optimum.
+   1. Double-click the jar file.<br>
+      Expected: The GUI opens with a set of sample contacts loaded. The initial window size may not be optimum.
 
 1. Saving window preferences
 
@@ -594,33 +718,143 @@ testers are expected to do more *exploratory* testing.
    1. Re-launch the app by double-clicking the jar file.<br>
        Expected: The most recent window size and location is retained.
 
-1. _{ more test cases …​ }_
+### Adding a person
+
+1. Adding a new person
+
+   1. Prerequisites: Start with the sample data loaded.
+
+   1. Test case:
+      `add n/Test Person p/81234567 e/test@example.com a/Test Street 1 d/Interested in condo t/Buyer`<br>
+      Expected: A new contact is added to the list with the supplied fields. Success message is shown.
+
+   1. Test case:
+      `add n/Test Person p/81234567`<br>
+      Expected: No person is added because the phone number already exists. An error message is shown.
+
+   1. Test case:
+      `add n/Test Person p/81234abc`<br>
+      Expected: No person is added. An error message describing invalid command input is shown.
 
 ### Deleting a person
 
-1. Deleting a person while all persons are being shown
+1. Deleting a person by phone number
 
-   1. Prerequisites: List all persons using the `list` command. Multiple persons in the list.
+   1. Prerequisites: Ensure a contact with phone number `81234567` exists. If not, add one using
+      `add n/Delete Me p/81234567`.
 
-   1. Test case: `delete 91234567`<br>
-      Expected: The contact with phone number `91234567` is deleted after confirmation. Details of the deleted contact
-      are shown in the status message. Timestamp in the status bar is updated.
+   1. Test case: `delete 81234567`, followed by `y`<br>
+      Expected: The contact is deleted. A success message is shown and the person disappears from the displayed list.
 
-   1. Test case: `delete 0`<br>
-      Expected: No person is deleted. Error details shown in the status message. Status bar remains the same.
+   1. Test case: `delete 81234567`, followed by `n`<br>
+      Expected: The deletion is cancelled. The contact list remains unchanged.
 
-   1. Test case: `delete 91234567`, followed by `n` at the confirmation prompt<br>
-      Expected: The deletion is cancelled and the contact list remains unchanged.
+   1. Test case: `delete 00000000`<br>
+      Expected: No person is deleted. An error message is shown.
 
-   1. Other incorrect delete commands to try: `delete`, `delete x` <br>
-      Expected: Similar to previous.
+   1. Other incorrect delete commands to try: `delete`, `delete abc`<br>
+      Expected: No person is deleted. An error message is shown.
 
-1. _{ more test cases …​ }_
+### Clearing all entries
+
+1. Clearing the address book
+
+   1. Prerequisites: The list contains at least one person.
+
+   1. Test case: `clear`, followed by `n`<br>
+      Expected: The clear operation is cancelled. The contact list remains unchanged.
+
+   1. Test case: `clear`, followed by `y`<br>
+      Expected: All contacts are removed from the list. A success message is shown.
+
+### Marking and unmarking favourites
+
+1. Marking a contact as favourite
+
+   1. Prerequisites: Use `list` to show all persons. Choose a displayed person that is not already marked as favourite.
+
+   1. Test case: `mark 1`<br>
+      Expected: The first displayed contact is marked as favourite. A success message is shown.
+
+   1. Test case: `mark 1` again on the same contact<br>
+      Expected: No change is made. An error message indicates that the person is already in favourites.
+
+   1. Test case: `mark 0`<br>
+      Expected: No change is made. An error message is shown.
+
+1. Unmarking a contact as favourite
+
+   1. Prerequisites: Ensure the first displayed contact is already marked as favourite.
+
+   1. Test case: `unmark 1`<br>
+      Expected: The first displayed contact is removed from favourites. A success message is shown.
+
+   1. Test case: `unmark 1` again on the same contact<br>
+      Expected: No change is made. An error message indicates that the person is not marked as favourite.
+
+1. Viewing favourites only
+
+   1. Prerequisites: At least one contact is marked as favourite.
+
+   1. Test case: `favourites`<br>
+      Expected: Only contacts currently marked as favourite are displayed.
+
+### Adding and clearing meetings
+
+1. Adding a meeting
+
+   1. Prerequisites: Use `list` to show all persons.
+
+   1. Test case: `meeting 1 15 Mar 2030 4pm`<br>
+      Expected: A meeting is added to the first displayed contact. A success message is shown.
+
+   1. Test case: `meeting 1 tomorrow 9am`<br>
+      Expected: A meeting is added using the parsed relative date and time. A success message is shown.
+
+   1. Test case: `meeting 1 1 Jan 2020 4pm`<br>
+      Expected: No meeting is added because the date/time is in the past. An error message is shown.
+
+   1. Test case: `meeting 0 15 Mar 2030 4pm`<br>
+      Expected: No meeting is added. An error message is shown.
+
+1. Clearing a meeting
+
+   1. Prerequisites: The first displayed contact already has a meeting assigned.
+
+   1. Test case: `meeting 1 clear`<br>
+      Expected: The meeting is removed from the first displayed contact. A success message is shown.
+
+### Undoing previous changes
+
+1. Undo after a modifying command
+
+   1. Prerequisites: There is at least one contact in the list.
+
+   1. Test case: `mark 1`, then `undo`<br>
+      Expected: The favourite change is reverted and the contact returns to its previous state.
+
+   1. Test case: `meeting 1 15 Mar 2030 4pm`, then `undo`<br>
+      Expected: The meeting addition is reverted.
+
+   1. Test case: `clear`, followed by `y`, then `undo`<br>
+      Expected: The previously cleared contact list is restored.
+
+   1. Test case: launch the app and immediately run `undo`<br>
+      Expected: No change is made. An error message indicates that there are no commands to undo.
 
 ### Saving data
 
 1. Dealing with missing/corrupted data files
 
-   1. _{explain how to simulate a missing/corrupted file, and the expected behavior}_
+   1. Close the application.
 
-1. _{ more test cases …​ }_
+   1. Open the data file at `data/addressbook.json` and make a backup copy.
+
+   1. Delete `data/addressbook.json`, then relaunch the application.<br>
+      Expected: The application starts successfully and recreates the data file.
+
+   1. Edit `data/addressbook.json` and replace part of the file with invalid JSON such as removing a closing brace,
+      then relaunch the application.<br>
+      Expected: The application starts with an empty address book and creates a fresh valid data file.
+
+   1. Restore the backup copy after testing.

@@ -2,17 +2,17 @@
 skin rose
 skinparam ActivityFontSize 15
 skinparam ArrowFontSize 12
+
 start
 :User executes command;
 
-'Since the beta syntax does not support placing the condition outside the
-'diamond we place it as the true branch instead.
+if () then ([Command changes address book] )
+  :Save current AddressBook snapshot;
+  :Save command text in history;
 
-if () then ([command commits AddressBook])
-    :Purge redundant states;
-    :Save AddressBook to
-    addressBookStateList;
-else ([else])
+else ([Else])
+
 endif
+:Execute command;
 stop
 @enduml
