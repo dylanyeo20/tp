@@ -16,7 +16,7 @@ within a streamlined interface.  ClientTracker makes it easy to organize and acc
    * Windows: Double-click on the JAR file
    * Linux/MacOS/Windows: run `java -jar app.jar`
 
-For more detailed instructions, see the [User Guide](https://se-education.org/addressbook-level3/UserGuide.html#quick-start)
+For more detailed instructions, see the [User Guide](https://ay2526s2-cs2103t-t14-2.github.io/tp/UserGuide.html#quick-start)
 
 ---
 
