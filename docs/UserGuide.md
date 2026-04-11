@@ -262,15 +262,21 @@ Search for persons using keywords across all fields or within specific fields.
 
 ### **⚠️Important Notes:**
 - You **cannot mix general search and prefix search**
-    - ❌ `find alex p/9876`
+  - ❌ `find alex p/9876`
 
 - Commas are required if you want to separate multiple keywords, otherwise it's ok
-    - ⚠️ `find n/Alex Bob`, this is **okay** if searching for "Alex Bob"
-    - ✅ `find n/Alex, Bob`
+  - ⚠️ `find n/Alex Bob`, this is **okay** if searching for "Alex Bob"
+  - ✅ `find n/Alex, Bob`
 
 - To search by tags, you must use the `t/` prefix
-    - ⚠️ `find buyer`, this is **okay** if searching for "buyer" not in tag
-    - ✅ `find t/buyer`
+  - ⚠️ `find buyer`, this is **okay** if searching for "buyer" not in tag
+  - ✅ `find t/buyer`
+
+- Keywords must contain at least one letter or number
+  - ❌ `find !!!`
+  - ❌ `find n/@@@`
+  - ✅ `find alex123`
+  - ✅ `find #02-25`
 
 
 ---

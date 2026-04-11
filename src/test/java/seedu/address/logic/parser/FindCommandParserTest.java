@@ -131,23 +131,89 @@ public class FindCommandParserTest {
     }
 
     @Test
-    public void parse_mixedGeneralAndTaggedArgs_throwsParseException() {
-        assertParseFailure(parser, "hello world p/1234",
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
-    }
-
-    @Test
-    public void parse_taggedArgsWithEmptyCommaEntries_skipsEmptyValues() {
-        FindCommand expectedFindCommand = new FindCommand(
-                new SearchPersonForKeyword(
-                        Map.of("n/", Arrays.asList("Alice", "Bob"))));
-
-        assertParseSuccess(parser, "n/Alice, , Bob,   ", expectedFindCommand);
-    }
-
-    @Test
     public void parse_multipleGeneralSegmentsAroundPrefix_throwsParseException() {
         assertParseFailure(parser, "hello world p/1234 bye",
                 String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
+    }
+
+    @Test
+    public void parse_taggedArgsWithEmptyCommaEntries_throwsParseException() {
+        assertParseFailure(parser, "n/Alice, , Bob,   ",
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
+    }
+
+    @Test
+    public void parse_generalOnlyCommas_throwsParseException() {
+        assertParseFailure(parser, ",",
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
+    }
+
+    @Test
+    public void parse_generalOnlyEmptyCommaEntries_throwsParseException() {
+        assertParseFailure(parser, ", ,",
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
+    }
+
+    @Test
+    public void parse_generalOnlyPunctuation_throwsParseException() {
+        assertParseFailure(parser, "!!!",
+                "Keywords must contain at least one letter or number.");
+    }
+
+    @Test
+    public void parse_generalMultiplePunctuationKeywords_throwsParseException() {
+        assertParseFailure(parser, "!!!, @@@",
+                "Keywords must contain at least one letter or number.");
+    }
+
+    @Test
+    public void parse_namePrefixOnlyCommas_throwsParseException() {
+        assertParseFailure(parser, "n/,",
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
+    }
+
+    @Test
+    public void parse_namePrefixOnlyEmptyCommaEntries_throwsParseException() {
+        assertParseFailure(parser, "n/, ,",
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
+    }
+
+    @Test
+    public void parse_namePrefixOnlyPunctuation_throwsParseException() {
+        assertParseFailure(parser, "n/!!!",
+                "Keywords must contain at least one letter or number.");
+    }
+
+    @Test
+    public void parse_tagPrefixOnlyCommas_throwsParseException() {
+        assertParseFailure(parser, "t/,",
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
+    }
+
+    @Test
+    public void parse_tagPrefixOnlyEmptyCommaEntries_throwsParseException() {
+        assertParseFailure(parser, "t/, ,",
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
+    }
+
+    @Test
+    public void parse_tagPrefixOnlyPunctuation_throwsParseException() {
+        assertParseFailure(parser, "t/!!!",
+                "Keywords must contain at least one letter or number.");
+    }
+
+    @Test
+    public void parse_tagPrefixInvalidTagValue_throwsParseException() {
+        assertParseFailure(parser, "t/friend",
+                "Tag values must be Buyer, Seller, Landlord, or Renter");
+    }
+
+    @Test
+    public void parse_tagPrefixValidTagValues_returnsFindCommand() {
+        FindCommand expectedFindCommand = new FindCommand(
+                new SearchPersonForKeyword(
+                        Map.of("t/", Arrays.asList("buyer", "seller"))));
+
+        assertParseSuccess(parser, "t/buyer, seller", expectedFindCommand);
     }
 }
