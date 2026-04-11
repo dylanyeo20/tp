@@ -28,8 +28,11 @@ public class DateTimeUtil {
             + "- 15 Mar 2025 4:30pm\n"
             + "- 15 Mar 2025 4.30pm\n"
             + "- 15 Mar 2025 1600\n"
+            + "- 15 Mar 2025 20:00\n"
             + "- 15 Mar 4pm (assumes current year)\n"
+            + "- 15 Mar 20:00 (assumes current year)\n"
             + "- 15 March 2025 4:30pm\n"
+            + "- 15 March 2025 20:00\n"
             + "- 15/3/2025 16:30\n"
             + "- 15-3-2025 4:30pm\n"
             + "- 15.3.2025 1630\n"
@@ -44,13 +47,13 @@ public class DateTimeUtil {
             + "- Sunday 2pm (or Sun 2pm)";
 
     private static final DateTimeFormatter[] FORMATS = {
-        // d MMM yyyy + time (4pm, 4:30pm, 4.30pm, 1600)
+        // d MMM yyyy + time (4pm, 4:30pm, 4.30pm, 1600, 20:00)
         new DateTimeFormatterBuilder()
                 .parseCaseInsensitive()
                 .appendPattern("d MMM uuuu")
                 .optionalStart()
                 .appendLiteral(' ')
-                .appendPattern("[h[:mm][.mm]a][HHmm]")
+                .appendPattern("[h[:mm][.mm]a][HHmm][H:mm]")
                 .optionalEnd()
                 .toFormatter(Locale.ENGLISH)
                 .withResolverStyle(ResolverStyle.STRICT),
@@ -62,7 +65,7 @@ public class DateTimeUtil {
                 .parseDefaulting(ChronoField.YEAR, LocalDate.now().getYear())
                 .optionalStart()
                 .appendLiteral(' ')
-                .appendPattern("[h[:mm][.mm]a][HHmm]")
+                .appendPattern("[h[:mm][.mm]a][HHmm][H:mm]")
                 .optionalEnd()
                 .toFormatter(Locale.ENGLISH)
                 .withResolverStyle(ResolverStyle.STRICT),
@@ -73,7 +76,7 @@ public class DateTimeUtil {
                 .appendPattern("d MMMM uuuu")
                 .optionalStart()
                 .appendLiteral(' ')
-                .appendPattern("[h[:mm][.mm]a][HHmm]")
+                .appendPattern("[h[:mm][.mm]a][HHmm][H:mm]")
                 .optionalEnd()
                 .toFormatter(Locale.ENGLISH)
                 .withResolverStyle(ResolverStyle.STRICT),
@@ -85,7 +88,7 @@ public class DateTimeUtil {
                 .parseDefaulting(ChronoField.YEAR, LocalDate.now().getYear())
                 .optionalStart()
                 .appendLiteral(' ')
-                .appendPattern("[h[:mm][.mm]a][HHmm]")
+                .appendPattern("[h[:mm][.mm]a][HHmm][H:mm]")
                 .optionalEnd()
                 .toFormatter(Locale.ENGLISH)
                 .withResolverStyle(ResolverStyle.STRICT),
