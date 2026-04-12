@@ -459,7 +459,11 @@ public class DateTimeUtil {
             } catch (IllegalArgumentException exception) {
                 String message = exception.getMessage();
                 if (MESSAGE_INVALID_DATE.equals(message)) {
-                    return MESSAGE_INVALID_DATE;
+                    // Only return invalid date if it's clearly invalid (not a leap year issue)
+                    // Let the main parsing logic handle leap year validation
+                    if (!isLeapYearCandidate(candidateDate)) {
+                        return MESSAGE_INVALID_DATE;
+                    }
                 }
                 if (MESSAGE_DATE_TIME_PAST.equals(message)) {
                     return null;
@@ -468,6 +472,11 @@ public class DateTimeUtil {
         }
 
         return null;
+    }
+
+    private static boolean isLeapYearCandidate(String dateStr) {
+        String lowerStr = dateStr.toLowerCase();
+        return lowerStr.contains("29") && lowerStr.contains("feb");
     }
 
     private static boolean isInvalidDateParseException(DateTimeParseException exception) {
