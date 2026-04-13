@@ -868,4 +868,4 @@ Team size: 5
 
 1. Allow phone numbers from other countries: The current phone number validation only accepts local Singapore phone numbers. We plan to allow phone numbers with country codes, e.g. `+60 123456789` or `+1 2125551234`, so users can store contacts from other countries without removing the country code.
 
-1. Notify users when past meetings are removed: The current meeting cleanup removes past meetings when the app opens, but users are not explicitly notified when this happens. We plan to display a startup notification such as `1 past meeting(s) removed.` when past meetings are removed from saved contact data.
+1. Notify users when past meetings are removed: The current meeting cleanup removes past meetings when the app opens, but users are not explicitly notified when this happens. We plan to display a startup notification such as `1 past meeting(s) removed.` when past meetings are removed from loaded contact data.

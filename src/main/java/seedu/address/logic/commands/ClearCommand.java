@@ -68,14 +68,15 @@ public class ClearCommand extends Command {
             throw new IllegalStateException("No pending clear command to confirm.");
         }
 
-        if (commandText.equalsIgnoreCase("y")) {
+        String confirmation = commandText.trim();
+        if (confirmation.equalsIgnoreCase("y")) {
             ClearCommand commandToExecute = pendingClearCommand;
             pendingClearCommand = null;
             pendingClearCommandText = null;
             return commandToExecute.execute(model);
         }
 
-        if (commandText.equalsIgnoreCase("n")) {
+        if (confirmation.equalsIgnoreCase("n")) {
             pendingClearCommand = null;
             pendingClearCommandText = null;
             return new CommandResult(MESSAGE_CLEAR_CANCELLED);
