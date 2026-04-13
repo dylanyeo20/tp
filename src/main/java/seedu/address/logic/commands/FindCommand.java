@@ -16,9 +16,9 @@ public class FindCommand extends Command {
     public static final String COMMAND_WORD = "find";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Finds all persons who contains any of "
-            + "the specified tags (n/, d/, a/, e/, p/, t/) and keywords (case-insensitive) and displays them."
-            + "\n Parameters: KEYWORD, [MORE_KEYWORDS]... or PREFIX/KEYWORD, [MORE_PREFIX_KEYWORDS]...\n"
-            + "Example: " + COMMAND_WORD + " n/alice, bob a/example@email.com";
+            + "the specified tags (n/, d/, a/, e/, p/) and keywords (case-insensitive) and displays them as "
+            + "a list with index numbers.\n Parameters: KEYWORD [MORE_KEYWORDS]...\n"
+            + "Example: " + COMMAND_WORD + " n/alice bob a/example@email.com";
 
     private final SearchPersonForKeyword predicate;
 

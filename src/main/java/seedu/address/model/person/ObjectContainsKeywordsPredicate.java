@@ -63,9 +63,7 @@ public abstract class ObjectContainsKeywordsPredicate<T> implements Predicate<T>
                 .filter(Objects::nonNull)
                 .map(String::toLowerCase)
                 .anyMatch(lowerCaseFieldValue -> keywords.stream()
-                        .filter(Objects::nonNull)
-                        .map(String::toLowerCase)
-                        .anyMatch(lowerCaseFieldValue::contains));
+                        .filter(Objects::nonNull).map(String::toLowerCase).anyMatch(lowerCaseFieldValue::contains));
     }
 
     /**
