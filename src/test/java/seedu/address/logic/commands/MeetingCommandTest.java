@@ -140,6 +140,12 @@ public class MeetingCommandTest {
     }
 
     @Test
+    public void modifiesAddressBook_returnsTrue() {
+        Meeting meeting = new Meeting(LocalDateTime.of(2030, 3, 25, 14, 30));
+        assertTrue(new MeetingCommand(Index.fromOneBased(1), meeting).modifiesAddressBook());
+    }
+
+    @Test
     public void getFormattedDateAndTime_returnsExpectedFormat() {
         Meeting meeting = new Meeting(LocalDateTime.of(2030, 3, 25, 14, 30));
         MeetingCommand meetingCommand = new MeetingCommand(Index.fromOneBased(1), meeting);
