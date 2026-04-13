@@ -65,7 +65,7 @@ public class MainWindow extends UiPart<Stage> {
 
         setAccelerators();
 
-        helpWindow = new HelpWindow();
+        helpWindow = new HelpWindow(this::handleHelpWindowEscape);
     }
 
     public Stage getPrimaryStage() {
@@ -149,6 +149,12 @@ public class MainWindow extends UiPart<Stage> {
             helpWindow.show();
         } else {
             helpWindow.focus();
+        }
+    }
+
+    private void handleHelpWindowEscape() {
+        if (helpWindow.isShowing()) {
+            helpWindow.hide();
         }
     }
 
