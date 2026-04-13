@@ -7,6 +7,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import seedu.address.commons.core.LogsCenter;
 
@@ -20,7 +22,7 @@ public class HelpWindow extends UiPart<Stage> {
     public static final String COMMAND_SUMMARY =
         "Quick Command Summary:\n\n"
         + "• add n/NAME p/PHONE [e/EMAIL] [a/ADDRESS] [d/DETAILS] [t/TAGS]\n"
-        + "• edit INDEX [p/PHONE] [e/EMAIL] [a/ADDRESS] [d/DETAILS] [t/TAGS]\n"
+        + "• edit INDEX [p/PHONE] [n/NAME] [e/EMAIL] [a/ADDRESS] [d/DETAILS] [t/TAGS]\n"
         + "• delete PHONE\n"
         + "• clear\n"
         + "• list\n"
@@ -45,21 +47,37 @@ public class HelpWindow extends UiPart<Stage> {
     @FXML
     private Label helpMessage;
 
+    private final Runnable onEscapePressed;
+
     /**
      * Creates a new HelpWindow.
      *
      * @param root Stage to use as the root of the HelpWindow.
      */
-    public HelpWindow(Stage root) {
+    public HelpWindow(Stage root, Runnable onEscapePressed) {
         super(FXML, root);
+        this.onEscapePressed = onEscapePressed;
         helpMessage.setText(COMMAND_SUMMARY + HELP_MESSAGE);
+        getRoot().addEventFilter(KeyEvent.KEY_PRESSED, event -> {
+            if (event.getCode() == KeyCode.ESCAPE) {
+                this.onEscapePressed.run();
+                event.consume();
+            }
+        });
+    }
+
+    /**
+     * Creates a new HelpWindow.
+     */
+    public HelpWindow(Runnable onEscapePressed) {
+        this(new Stage(), onEscapePressed);
     }
 
     /**
      * Creates a new HelpWindow.
      */
     public HelpWindow() {
-        this(new Stage());
+        this(new Stage(), () -> { });
     }
 
     /**

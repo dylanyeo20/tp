@@ -413,6 +413,7 @@ Format: `favourites`
 
 Shows a message explaining how to access the help page
 The user can open their preferred browser and paste the provided URL to access it
+They can also manually close the help window by clicking the close button or pressing the Escape key.
 
 ![help message](images/helpMessage.png)
 
