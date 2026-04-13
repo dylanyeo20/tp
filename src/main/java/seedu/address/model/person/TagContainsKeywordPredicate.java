@@ -13,8 +13,6 @@ public class TagContainsKeywordPredicate extends ObjectContainsKeywordsPredicate
 
     @Override
     protected List<String> getFieldValue(Person person) {
-        return person.getTags().stream()
-                .map(tag -> tag.toString()) // or tag.getTagName() depending on your class
-                .toList();
+        return person.getTags().stream().map(tag -> tag.toString()).toList();
     }
 }
